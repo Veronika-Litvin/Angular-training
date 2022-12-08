@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   templateUrl: './info-page.component.html',
   styleUrls: ['./info-page.component.scss']
 })
-export class InfoPageComponent {
+export class InfoPageComponent implements OnInit {
   href = '';
   name = 'Mrs Norris';
   description = 'Good person';
@@ -19,11 +19,11 @@ export class InfoPageComponent {
     this.href = this.router.url;
   }
 
-  navigateHome() {
-    this.router.navigate(['home'])
+  navigateHome(): void {
+    this.router.navigate(['home']);
   }
 
-  substituteImage(event: MatSelectChange) {
+  substituteImage(event: MatSelectChange): void {
     if(event.value == 'male') {
       this.src = '../../../assets/male-avatar.jpg';
     }else {

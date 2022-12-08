@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,17 +6,15 @@ import { Router } from '@angular/router';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss']
 })
-export class HomePageComponent {
+export class HomePageComponent implements OnInit{
   href = '';
 
   constructor(private router: Router) { }
 
   ngOnInit() {
     this.href = this.router.url;
-    console.log(this.router.url);
 }
-  navigateInfoPage() {
-    this.router.navigate(['info'])
+  navigateInfoPage(): void {
+    this.router.navigate(['info']);
   }
-
 }
