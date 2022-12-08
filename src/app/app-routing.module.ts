@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomePageComponent } from './home-page/home-page.component';
-import { InfoPageComponent } from './info-page/info-page.component';
+import { CarComponent } from './car/car/car.component';
+import { UserComponent } from './user/user/user.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'user',
     pathMatch: 'full'
   },
   {
-    path: 'home',
-    component: HomePageComponent
+    path: 'car',
+    component: CarComponent
   },
   {
-    path: 'info',
-    component: InfoPageComponent
+    path: 'user',
+    component: UserComponent
   }
 ];
 

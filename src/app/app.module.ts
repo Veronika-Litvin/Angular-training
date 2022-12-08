@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { InfoPageComponent } from './info-page/info-page.component';
-import { HomePageComponent } from './home-page/home-page.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -14,6 +12,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {MatListModule} from '@angular/material/list';
+import { UserModule } from './user/user.module';
+import { CarModule } from './car/car.module';
 
 const uiModules = [
   MatTabsModule,
@@ -23,21 +24,22 @@ const uiModules = [
   MatFormFieldModule,
   MatSelectModule,
   MatInputModule,
-  FormsModule
+  FormsModule,
+  MatListModule
 ]
 
 @NgModule({
   declarations: [
-    AppComponent,
-    InfoPageComponent,
-    HomePageComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
     BrowserAnimationsModule,
-    uiModules
+    uiModules,
+    UserModule,
+    CarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
