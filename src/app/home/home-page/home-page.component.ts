@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent {
-  href: string = '';
+  href = '';
 
   constructor(private router: Router) { }
 
@@ -15,5 +15,8 @@ export class HomePageComponent {
     this.href = this.router.url;
     console.log(this.router.url);
 }
+  navigateInfoPage() {
+    this.router.navigate(['info'])
+  }
 
 }
