@@ -1,0 +1,9 @@
+<button mat-stroked-button class="navigate-btn" color="accent" (click)="navigateCarPage()">Car</button>
+<div class="users">
+  <button mat-stroked-button (click)="showNonActive = !showNonActive">Toggle</button>
+  <mat-list class="users-list">
+    <ng-container *ngFor="let user of users">
+        <app-user-list-item [user]="user"></app-user-list-item>
+    </ng-container>
+  </mat-list>
+</div>
