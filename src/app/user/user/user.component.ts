@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { IUser } from '../models/user.interface';
 import { users } from '../models/users';
 
@@ -11,12 +12,14 @@ export class UserComponent {
   usersList!: Array<IUser>;
   showNonActive = true;
 
-  constructor() { 
+  constructor(private router: Router) { 
     this.usersList = users;
   }
 
   deactivateUser(user: IUser): void {
     user.isActivated = false;
   }
-
+  navigateCarPage(): void {
+    this.router.navigate(['car']);
+  }
 }
