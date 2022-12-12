@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { IUser } from '../models/user.interface';
-import { users } from '../models/users';
+import { IUser } from '../../models/user.interface';
+import { users } from '../../mocks/users';
 
 @Component({
   selector: 'app-user',
@@ -12,7 +12,7 @@ export class UserComponent {
   usersList!: Array<IUser>;
   showNonActive = true;
 
-  constructor(private router: Router) { 
+  constructor(private router: Router) {
     this.usersList = users;
   }
 

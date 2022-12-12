@@ -5,4 +5,4 @@ export const users = [
     {name: 'Vlad', age: 36, isActivated: true},
     {name: 'Nikita', age: 42, isActivated: false},
     {name: 'Vika', age: 19, isActivated: false},
-]
+];
