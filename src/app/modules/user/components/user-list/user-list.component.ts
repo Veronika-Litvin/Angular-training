@@ -12,9 +12,4 @@ export class UserListComponent {
   @ViewChildren(UserListItemComponent) userListItems!: QueryList<UserListItemComponent>;
   showNonActive = true;
 
-  deactivateAllUsers(): void {
-    this.userListItems.forEach((userItem) => {
-      userItem.deactivateUser(userItem.user)
-    });
-  }
 }
