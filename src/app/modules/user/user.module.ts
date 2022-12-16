@@ -8,6 +8,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { UsersPageComponent } from './pages/users-page/users-page.component';
 import { UserListItemComponent } from './components/user-list-item/user-list-item.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { UserListComponent } from './components/user-list/user-list.component';
     FormsModule,
     MatListModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    SharedModule
   ]
 })
 export class UserModule { }

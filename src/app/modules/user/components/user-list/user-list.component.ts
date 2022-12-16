@@ -10,6 +10,5 @@ import { UserListItemComponent } from '../user-list-item/user-list-item.componen
 export class UserListComponent {
   @Input() users: IUser[] = [];
   @ViewChildren(UserListItemComponent) userListItems!: QueryList<UserListItemComponent>;
-  showNonActive = true;
 
 }
