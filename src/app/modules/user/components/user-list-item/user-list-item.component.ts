@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { FavoritsDataService } from 'src/app/services/favorits-data.service';
+import { FavoriteDataService } from 'src/app/services/favorite-data.service';
+import { FavoriteDecorator } from '../../models/favorite-decorator.interface';
 import { IUser } from '../../models/user.interface';
 
 @Component({
@@ -9,13 +10,13 @@ import { IUser } from '../../models/user.interface';
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserListItemComponent {
-  @Input() user!: IUser;
+  @Input() user!: FavoriteDecorator<IUser>;
   @Input() isFavorite!: boolean
 
-  constructor(private favoritsDataService: FavoritsDataService) {
+  constructor(private favoriteDataService: FavoriteDataService<IUser>) {
   }
 
   toggleFavorits() {
-    this.isFavorite = this.favoritsDataService.toggleFavoriteUser(this.user);
+    this.isFavorite = this.favoriteDataService.toggleFavoriteUsers(this.user);
   }
 }

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { FavoriteDecorator } from '../../models/favorite-decorator.interface';
 import { IUser } from '../../models/user.interface';
 @Component({
   selector: 'app-user-list',
@@ -6,6 +7,6 @@ import { IUser } from '../../models/user.interface';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent {
-  @Input() users: Map<IUser, boolean> = new Map();
-
+  @Input() users: FavoriteDecorator<IUser>[] = [];
 }
+

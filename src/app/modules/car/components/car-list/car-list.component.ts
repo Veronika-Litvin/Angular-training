@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { FavoriteDecorator } from 'src/app/modules/user/models/favorite-decorator.interface';
 import { ICar } from '../../models/car.interface';
 
 @Component({
@@ -7,5 +8,5 @@ import { ICar } from '../../models/car.interface';
   styleUrls: ['./car-list.component.scss']
 })
 export class CarListComponent {
-  @Input() cars: ICar[] = [];
+  @Input() cars: FavoriteDecorator<ICar>[] = [];
 }

@@ -1,7 +1,7 @@
 <div class="users">
   <mat-list class="users-list">
-    <ng-container *ngFor="let user of users | keyvalue">
-        <app-user-list-item [user]="user.key" [isFavorite]="user.value"></app-user-list-item>
+    <ng-container *ngFor="let user of users">
+        <app-user-list-item [user]="user"></app-user-list-item>
     </ng-container>
   </mat-list>
 </div>
