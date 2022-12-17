@@ -6,6 +6,6 @@ import { IUser } from '../../models/user.interface';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent {
-  @Input() users: IUser[] = [];
+  @Input() users: Map<IUser, boolean> = new Map();
 
 }

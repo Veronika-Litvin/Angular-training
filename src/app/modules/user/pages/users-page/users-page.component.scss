@@ -1,4 +1,7 @@
-.users {
+.users-page-wrapper {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    .favorits-wrapper {
+        width: 40%;
+    }
 }

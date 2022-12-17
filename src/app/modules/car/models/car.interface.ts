@@ -3,6 +3,6 @@ export interface ICar {
     name: string;
     color: string;
     releaseYear: number;
-    number: number;
+    number: string;
     imageUrl: string;
 }

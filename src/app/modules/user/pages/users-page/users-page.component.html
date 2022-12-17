@@ -1,2 +1,8 @@
 <button mat-stroked-button class="navigate-btn" color="accent" (click)="navigateCarPage()">Car</button>
+<div class="users-page-wrapper">
 <app-user-list [users]="users"></app-user-list>
+<div class="favorits-wrapper">
+    <h2>My favorits users</h2>
+    <app-user-list [users]="favoriteUsers"></app-user-list>
+</div>
+</div>

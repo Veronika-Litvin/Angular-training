@@ -7,6 +7,9 @@
       <ng-content></ng-content>
     </mat-card-content>
     <mat-card-actions>
+      <button mat-icon-button  aria-label="Favorite" [ngClass]="{red: isFavorite}" (click)="addToFavorits()">
+        <mat-icon>favorite</mat-icon>
+      </button>
     </mat-card-actions>
   </mat-card>
 </div>

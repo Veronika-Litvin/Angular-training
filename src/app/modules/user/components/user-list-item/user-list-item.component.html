@@ -1,4 +1,4 @@
-<app-card>
+<app-card (toggleItemEvent)="toggleFavorits()" [isFavorite] = "isFavorite">
   <p>{{user.name}} <strong>{{user.age}}</strong></p>
   <div>
     <img class="user-img" src="{{user.imageUrl}}" alt="User image">
