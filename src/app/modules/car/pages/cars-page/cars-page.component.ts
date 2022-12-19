@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { FavoriteTypes } from 'src/app/modules/shared/models/favorite-enum';
 import { FavoriteDataService } from 'src/app/modules/shared/services/favorite-data.service';
 import { ICar } from '../../models/car.interface';
@@ -15,8 +14,7 @@ export class CarsPageComponent implements OnInit{
   favoriteCars: ICar[] = [];
   favoriteIds: number[] = [];
 
-  constructor(private carService: CarService, private router: Router, private favoriteDataService: FavoriteDataService) {
-  }
+  constructor(private carService: CarService, private favoriteDataService: FavoriteDataService) {}
 
   ngOnInit(): void {
     this.cars = this.carService.getCars();
@@ -27,9 +25,5 @@ export class CarsPageComponent implements OnInit{
   updateFavoriteCar(car: ICar): void {
     this.favoriteIds = this.favoriteDataService.updateFavoriteItems(FavoriteTypes.Car, car.id);
     this.favoriteCars = this.carService.getFavoriteCars();
-  }
-
-  navigateUserPage(): void {
-    this.router.navigate(['user']);
   }
 }
