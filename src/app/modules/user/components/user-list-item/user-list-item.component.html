@@ -1,5 +1,5 @@
 <app-card (toggleItemEvent)="toggleFavorits()" [isFavorite] = "isFavorite">
-  <p>{{user.name}} <strong>{{user.age}}</strong></p>
+  <p>{{user.firstName}} <strong>{{user.age}}</strong></p>
   <div>
     <img class="user-img" src="{{user.imageUrl}}" alt="User image">
     <p>{{user.gender ? 'female' : 'male'}}</p>
