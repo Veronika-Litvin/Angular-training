@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FavoriteDecorator } from 'src/app/modules/user/models/favorite-decorator.interface';
-import { FavoriteDataService } from 'src/app/services/favorite-data.service';
+import { FavoriteTypes } from 'src/app/modules/shared/models/favorite-enum';
+import { FavoriteDataService } from 'src/app/modules/shared/services/favorite-data.service';
 import { ICar } from '../../models/car.interface';
 import { CarService } from '../../services/car.service';
 
@@ -11,17 +11,25 @@ import { CarService } from '../../services/car.service';
   styleUrls: ['./cars-page.component.scss']
 })
 export class CarsPageComponent implements OnInit{
-  cars: FavoriteDecorator<ICar>[] = [];
-  favoriteCars: FavoriteDecorator<ICar>[] = [];
+  cars: ICar[] = [];
+  favoriteCars: ICar[] = [];
+  favoriteIds: number[] = [];
 
-  constructor(private carService: CarService, private router: Router, private favoriteDataService: FavoriteDataService<ICar>) {
+  constructor(private carService: CarService, private router: Router, private favoriteDataService: FavoriteDataService) {
   }
 
   ngOnInit(): void {
     this.cars = this.carService.getCars();
-    this.favoriteCars = this.favoriteDataService.getFavoriteCars();
+    this.favoriteIds = this.favoriteDataService.getFavorites(FavoriteTypes.Car)
+    this.favoriteCars = this.carService.getFavoriteCars();
   }
-  navigateUserPage() {
+
+  updateFavoriteCar(car: ICar): void {
+    this.favoriteIds = this.favoriteDataService.updateFavoriteItems(FavoriteTypes.Car, car.id);
+    this.favoriteCars = this.carService.getFavoriteCars();
+  }
+
+  navigateUserPage(): void {
     this.router.navigate(['user']);
   }
 }

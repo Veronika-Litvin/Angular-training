@@ -1,6 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { FavoriteDecorator } from 'src/app/modules/user/models/favorite-decorator.interface';
-import { FavoriteDataService } from 'src/app/services/favorite-data.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ICar } from '../../models/car.interface';
 
 @Component({
@@ -9,12 +7,12 @@ import { ICar } from '../../models/car.interface';
   styleUrls: ['./car-list-item.component.scss']
 })
 export class CarListItemComponent {
-  @Input() car!: FavoriteDecorator<ICar>;
+  @Input() car!: ICar;
   @Input() isFavorite!: boolean;
+  @Output() favoriteChangedEvent = new EventEmitter();
 
-  constructor(private favoriteDataService: FavoriteDataService<ICar>) {
-  }
+
   toggleFavorits() {
-    this.isFavorite = this.favoriteDataService.toggleFavoriteCars(this.car);
+    this.favoriteChangedEvent.emit();
   }
 }

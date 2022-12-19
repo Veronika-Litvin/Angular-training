@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { FavoriteDecorator } from '../../models/favorite-decorator.interface';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IUser } from '../../models/user.interface';
 @Component({
   selector: 'app-user-list',
@@ -7,6 +6,16 @@ import { IUser } from '../../models/user.interface';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent {
-  @Input() users: FavoriteDecorator<IUser>[] = [];
+  @Input() users: IUser[] = [];
+  @Input() favoriteIds: number[] = [];
+  @Output() updateFavoriteEvent = new EventEmitter<IUser>();
+
+  changeFavorite(user: IUser): void {
+    this.updateFavoriteEvent.emit(user);
+  }
+
+  isFavorite(user: IUser): boolean {
+    return this.favoriteIds.includes(user.id);
+  }
 }
 

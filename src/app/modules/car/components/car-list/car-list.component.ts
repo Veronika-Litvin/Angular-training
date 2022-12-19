@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { FavoriteDecorator } from 'src/app/modules/user/models/favorite-decorator.interface';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ICar } from '../../models/car.interface';
 
 @Component({
@@ -8,5 +7,15 @@ import { ICar } from '../../models/car.interface';
   styleUrls: ['./car-list.component.scss']
 })
 export class CarListComponent {
-  @Input() cars: FavoriteDecorator<ICar>[] = [];
+  @Input() cars: ICar[] = [];
+  @Input() favoriteIds: number[] = [];
+  @Output() updateFavoriteEvent = new EventEmitter<ICar>();
+
+  changeFavorite(car: ICar) {
+    this.updateFavoriteEvent.emit(car);
+  }
+
+  isFavorite(car: ICar): boolean {
+    return this.favoriteIds.includes(car.id);
+  }
 }

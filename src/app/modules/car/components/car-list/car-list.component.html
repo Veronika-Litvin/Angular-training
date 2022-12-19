@@ -1,7 +1,7 @@
 <div class="cars">
     <mat-list class="cars-list">
       <ng-container *ngFor="let car of cars">
-          <app-car-list-item [car]="car"></app-car-list-item>
+          <app-car-list-item [isFavorite]="isFavorite(car)" [car]="car" (favoriteChangedEvent)="changeFavorite(car)"></app-car-list-item>
       </ng-container>
     </mat-list>
   </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FavoriteDataService } from 'src/app/services/favorite-data.service';
-import { FavoriteDecorator } from '../../models/favorite-decorator.interface';
+import { FavoriteTypes } from 'src/app/modules/shared/models/favorite-enum';
+import { FavoriteDataService } from 'src/app/modules/shared/services/favorite-data.service';
 import { IUser } from '../../models/user.interface';
 import { UserService } from '../../services/user.service';
 
@@ -11,16 +11,24 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./users-page.component.scss']
 })
 export class UsersPageComponent implements OnInit {
-  users: FavoriteDecorator<IUser>[] = [];
-  favoriteUsers: FavoriteDecorator<IUser>[] = [];
+  users: IUser[] = [];
+  favoriteUsers: IUser[] = [];
+  favoriteIds: number[] = [];
 
-  constructor(private userService: UserService, private router: Router, private favoriteDataService: FavoriteDataService<IUser>) {
+  constructor(private userService: UserService, private router: Router, private favoriteDataService: FavoriteDataService) {
   }
 
   ngOnInit(): void {
     this.users = this.userService.getUsers();
-    this.favoriteUsers = this.favoriteDataService.getFavoriteUsers();
+    this.favoriteIds = this.favoriteDataService.getFavorites(FavoriteTypes.User)
+    this.favoriteUsers = this.userService.getFavoriteUsers();
   }
+
+  updateFavoriteUser(user: IUser):void {
+    this.favoriteIds = this.favoriteDataService.updateFavoriteItems(FavoriteTypes.User, user.id);
+    this.favoriteUsers = this.userService.getFavoriteUsers();
+  }
+
   navigateCarPage(): void {
     this.router.navigate(['car']);
   }
