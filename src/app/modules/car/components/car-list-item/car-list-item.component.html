@@ -1,8 +1,8 @@
 <app-card (toggleItemEvent)="toggleFavorits()" [isFavorite] = "isFavorite">
-    <p>{{car.name}} <strong>{{car.releaseYear}}</strong></p>
+    <p><span class="category-name">Name: </span>{{car.name}} <strong>{{car.releaseYear}}</strong></p>
     <div>
       <img class="car-img" src="{{car.imageUrl}}" alt="Car image">
-      <p>{{car.color}}</p>
-      <p>{{car.number}}</p>
+      <p><span class="category-name">Color: </span>{{car.color}}</p>
+      <p><span class="category-name">Number: </span>{{car.number}}</p>
     </div>
   </app-card>

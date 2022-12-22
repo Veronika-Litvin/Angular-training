@@ -1,9 +1,9 @@
 <app-card (toggleItemEvent)="toggleFavorits()" [isFavorite] = "isFavorite">
-  <p>{{user.firstName}} <strong>{{user.age}}</strong></p>
+  <p><span class="category-name">Name: </span>{{user.firstName}} <strong>{{user.age}}</strong></p>
   <div>
     <img class="user-img" src="{{user.imageUrl}}" alt="User image">
-    <p>{{user.gender ? 'female' : 'male'}}</p>
-    <p>{{user.department}}</p>
-    <p>{{user.company}}</p>
+    <p><span class="category-name">Gender: </span> {{user.gender ? 'female' : 'male'}}</p>
+    <p><span class="category-name">Department: </span>{{user.department}}</p>
+    <p><span class="category-name">Company: </span>{{user.company}}</p>
   </div>
 </app-card>

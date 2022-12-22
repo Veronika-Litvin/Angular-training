@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { IUser } from '../../models/user.interface';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-user-creation-page',
@@ -7,17 +9,15 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./user-creation-page.component.scss']
 })
 export class UserCreationPageComponent {
+  
+  constructor(private userService: UserService, private router: Router) {}
 
-  creationUserForm : FormGroup = new FormGroup({
-             
-    "firstName": new FormControl(),
-    "lastName": new FormControl(),
-    "age": new FormControl(),
-    "email": new FormControl(),
-    "userEmail": new FormControl(),
-    "company": new FormControl(),
-    "department": new FormControl(),
-    "gender": new FormControl(),
-});
+  saveNewUser(user: IUser) {
+    user.imageUrl = '../../../../../assets/unknown.png';
+    user.id = Date.now();
+    this.userService.createUser(user);
+    console.log(user);
+    this.router.navigate(['user']);
+  }
 
 }

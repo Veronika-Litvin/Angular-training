@@ -17,10 +17,15 @@ export class UserService {
   getUsers(): IUser[] {
     return this.users;
   }
+
   getFavoriteUsers(): IUser[] {
     const favoriteIds = this.favoriteService.getFavorites(FavoriteTypes.User);
     return this.getUsers().filter((user) => {
       return favoriteIds.includes(user.id);
     });
+  }
+
+  createUser(newUser: IUser): void {
+    this.users.push(newUser);
   }
 }

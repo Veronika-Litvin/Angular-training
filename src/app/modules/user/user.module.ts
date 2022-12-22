@@ -14,13 +14,15 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { UserCreateFormComponent } from './components/user-create-form/user-create-form.component';
 
 @NgModule({
   declarations: [
     UserListItemComponent,
     UsersPageComponent,
     UserListComponent,
-    UserCreationPageComponent
+    UserCreationPageComponent,
+    UserCreateFormComponent
   ],
   imports: [
     CommonModule,
