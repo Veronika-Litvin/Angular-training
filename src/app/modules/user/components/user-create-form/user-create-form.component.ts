@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,13 +6,17 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './user-create-form.component.html',
   styleUrls: ['./user-create-form.component.scss']
 })
-export class UserCreateFormComponent {
-  @Output() saveNewUserEvent = new EventEmitter();
+export class UserCreateFormComponent implements OnInit {
+  @Input() userPageForm!: FormGroup;
 
   creationUserForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
     this.createForm();
+  }
+
+  ngOnInit(): void {
+    this.userPageForm.addControl('user', this.creationUserForm);
   }
 
   private createForm(): void {
@@ -25,8 +29,4 @@ export class UserCreateFormComponent {
     department: '',
     gender: null
 })}
-
-  saveNewUser(): void {
-    this.saveNewUserEvent.emit(this.creationUserForm.value);
-  }
 }

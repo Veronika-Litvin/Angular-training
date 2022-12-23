@@ -1,15 +1,22 @@
 <div class="card-wrapper">
-<mat-card  class="card">
+
+  <mat-card class="card">
+
     <mat-card-header>
-      <mat-card-title><ng-content></ng-content></mat-card-title>
+      <mat-card-title><ng-content select="[titleData]"></ng-content></mat-card-title>
     </mat-card-header>
+
+    <ng-content select="[imgUrl]"></ng-content>
+
     <mat-card-content>
       <ng-content></ng-content>
     </mat-card-content>
+
     <mat-card-actions>
-      <button mat-icon-button  aria-label="Favorite" [ngClass]="{red: isFavorite}" (click)="addToFavorits()">
+      <button mat-icon-button aria-label="Favorite" [ngClass]="{red: isFavorite}" (click)="addToFavorits()">
         <mat-icon>favorite</mat-icon>
       </button>
     </mat-card-actions>
+
   </mat-card>
 </div>

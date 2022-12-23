@@ -9,3 +9,5 @@ export const users: IUser[] = [
     {id: 6, firstName: 'Vika', lastName: 'Simonova', age: 19, email: 'vika@mail.ru', gender: true, department: '.Net', company: 'Playtica', imageUrl: '../../../../assets/Vika.jpg'},
     {id: 7, firstName: 'Petr', lastName: 'Kleban', age: 29, email: 'petr@mail.ru', gender: false, department: 'JS', company: 'ITransition', imageUrl: '../../../../assets/Petr.jpg'}
   ];
+
+export const defaultImg = '../../../../../assets/unknown.png';

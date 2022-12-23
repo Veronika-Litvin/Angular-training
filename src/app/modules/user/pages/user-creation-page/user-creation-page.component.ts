@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IUser } from '../../models/user.interface';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -8,16 +8,18 @@ import { UserService } from '../../services/user.service';
   templateUrl: './user-creation-page.component.html',
   styleUrls: ['./user-creation-page.component.scss']
 })
-export class UserCreationPageComponent {
-  
-  constructor(private userService: UserService, private router: Router) {}
+export class UserCreationPageComponent implements OnInit {
 
-  saveNewUser(user: IUser) {
-    user.imageUrl = '../../../../../assets/unknown.png';
-    user.id = Date.now();
-    this.userService.createUser(user);
-    console.log(user);
-    this.router.navigate(['user']);
+  userPageForm!: FormGroup;
+  
+  constructor(private userService: UserService, private router: Router, private formBuilder: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.userPageForm = this.formBuilder.group({});
   }
 
+  saveNewUser() {
+    this.userService.createUser(this.userPageForm.value.user);
+    this.router.navigate(['user']);
+  }
 }

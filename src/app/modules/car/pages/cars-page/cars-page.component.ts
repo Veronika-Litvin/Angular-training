@@ -14,7 +14,8 @@ export class CarsPageComponent implements OnInit{
   favoriteCars: ICar[] = [];
   favoriteIds: number[] = [];
 
-  constructor(private carService: CarService, private favoriteDataService: FavoriteDataService) {}
+  constructor(private carService: CarService, private favoriteDataService: FavoriteDataService) {
+  }
 
   ngOnInit(): void {
     this.cars = this.carService.getCars();

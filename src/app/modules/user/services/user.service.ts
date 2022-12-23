@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FavoriteTypes } from '../../shared/models/favorite-enum';
 import { FavoriteDataService } from '../../shared/services/favorite-data.service';
 import { users } from '../mocks/user-list';
+import { IFormUser } from '../models/form-user-data.interface';
 import { IUser } from '../models/user.interface';
 
 @Injectable({
@@ -25,7 +26,9 @@ export class UserService {
     });
   }
 
-  createUser(newUser: IUser): void {
-    this.users.push(newUser);
+  createUser(newFormUser: IFormUser): void {
+    this.users.push({
+      id: Date.now(),
+      ...newFormUser});
   }
 }

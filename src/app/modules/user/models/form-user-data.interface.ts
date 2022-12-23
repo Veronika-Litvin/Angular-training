@@ -1,5 +1,4 @@
-export interface IUser {
-    id: number;
+export interface IFormUser {
     firstName: string;
     lastName: string;
     email: string;

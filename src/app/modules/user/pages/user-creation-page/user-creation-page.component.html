@@ -1,1 +1,7 @@
-<app-user-create-form (saveNewUserEvent)="saveNewUser($event)"></app-user-create-form>
+<form (ngSubmit)="saveNewUser()" class="create-page-wrapper">
+    <h3 class="title">Create user</h3>
+
+    <app-user-create-form [userPageForm]="userPageForm" class="create-form"></app-user-create-form>
+
+    <button type="submit" class="submit-btn" mat-flat-button color="accent">Save</button>
+</form>
