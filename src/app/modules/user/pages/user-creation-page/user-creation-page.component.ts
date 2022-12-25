@@ -19,7 +19,12 @@ export class UserCreationPageComponent implements OnInit {
   }
 
   saveNewUser() {
-    this.userService.createUser(this.userPageForm.value.user);
-    this.router.navigate(['user']);
+    this.userPageForm.markAllAsTouched();
+    if(this.userPageForm.valid) {
+      this.userService.createUser(this.userPageForm.value.user);
+      this.router.navigate(['user']);
+    } else {
+      document.querySelector('.create-page-wrapper')?.classList.add('invalid');
+    }
   }
 }

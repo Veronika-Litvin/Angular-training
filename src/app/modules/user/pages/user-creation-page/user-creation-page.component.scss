@@ -8,12 +8,24 @@
     padding: 20px;
     margin-top: 20px;
 }
+
 .create-form {
     width: 70%;
     margin: 0 auto;
 }
+
 .submit-btn,
 .title {
     margin: 0 auto;
     display: block;
+}
+
+.invalid {
+    box-shadow: 0px 0px 21px 1px rgba(216, 33, 33, 0.6);
+}
+
+.text-invalid {
+    margin: 10px auto;
+    color: red;
+    font-size: 18px;
 }

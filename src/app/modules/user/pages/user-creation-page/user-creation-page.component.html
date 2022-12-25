@@ -1,6 +1,10 @@
 <form (ngSubmit)="saveNewUser()" class="create-page-wrapper">
     <h3 class="title">Create user</h3>
 
+    <div class="text-invalid" *ngIf="userPageForm.touched && userPageForm.invalid">
+        Invalid form
+    </div>
+
     <app-user-create-form [userPageForm]="userPageForm" class="create-form"></app-user-create-form>
 
     <button type="submit" class="submit-btn" mat-flat-button color="accent">Save</button>
