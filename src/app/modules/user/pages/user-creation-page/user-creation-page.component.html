@@ -1,9 +1,9 @@
 <form (ngSubmit)="saveNewUser()" class="create-page-wrapper">
     <h3 class="title">Create user</h3>
 
-    <div class="text-invalid" *ngIf="userPageForm.touched && userPageForm.invalid">
+    <!-- <div class="text-invalid" *ngIf="userPageForm.touched && userPageForm.invalid">
         Invalid form
-    </div>
+    </div> -->
 
     <app-user-create-form [userPageForm]="userPageForm" class="create-form"></app-user-create-form>
 
