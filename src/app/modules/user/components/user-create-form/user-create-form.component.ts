@@ -12,7 +12,7 @@ export class UserCreateFormComponent implements OnInit {
 
   creationUserForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private checkRepeatingEmailValidator: CheckRepeatingEmailValidator) {}
+  constructor(private formBuilder: FormBuilder, private checkRepeatingEmailValidator: CheckRepeatingEmailValidator) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -20,15 +20,16 @@ export class UserCreateFormComponent implements OnInit {
   }
 
   private createForm(): void {
-    this.creationUserForm  = this.formBuilder.group({           
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    age: [null, [Validators.required, Validators.min(15), Validators.max(100)]],
-    userEmail: ['', [Validators.required, Validators.email , Validators.pattern("^.+@gmail\\.com$")], this.checkRepeatingEmailValidator.uniqueEmailValidator()],
-    company: ['', [Validators.max(35)]],
-    department: ['', [Validators.min(6)]],
-    gender: [null, Validators.required]
-})}
+    this.creationUserForm = this.formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      age: [null, [Validators.required, Validators.min(15), Validators.max(100)]],
+      userEmail: ['', [Validators.required, Validators.email, Validators.pattern("^.+@gmail\\.com$")], this.checkRepeatingEmailValidator.uniqueEmailValidator()],
+      company: ['', [Validators.max(35)]],
+      department: ['', [Validators.min(6)]],
+      gender: [null, Validators.required]
+    })
+  }
 
   get creationUserFormControl() {
     return this.creationUserForm.controls;

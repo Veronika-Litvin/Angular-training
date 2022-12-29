@@ -11,8 +11,8 @@ import { UserService } from '../../services/user.service';
 export class UserCreationPageComponent implements OnInit {
 
   userPageForm!: FormGroup;
-  
-  constructor(private userService: UserService, private router: Router, private formBuilder: FormBuilder) {}
+
+  constructor(private userService: UserService, private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.userPageForm = this.formBuilder.group({});
@@ -20,7 +20,7 @@ export class UserCreationPageComponent implements OnInit {
 
   saveNewUser() {
     this.userPageForm.markAllAsTouched();
-    if(this.userPageForm.valid) {
+    if (this.userPageForm.valid) {
       this.userService.createUser(this.userPageForm.value.user);
       this.router.navigate(['user']);
     } else {

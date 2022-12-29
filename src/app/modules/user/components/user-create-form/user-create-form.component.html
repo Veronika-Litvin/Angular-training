@@ -28,7 +28,8 @@
         <input matInput type="text" formControlName="userEmail" />
     </mat-form-field>
 
-    <div *ngIf="creationUserFormControl['userEmail'].invalid && (creationUserFormControl['userEmail'].dirty || creationUserFormControl['userEmail'].touched)">
+    <div
+        *ngIf="creationUserFormControl['userEmail'].invalid && (creationUserFormControl['userEmail'].dirty || creationUserFormControl['userEmail'].touched)">
         <span class="text-danger" *ngIf="creationUserFormControl['userEmail'].errors!['required']">
             Required field
         </span>
@@ -41,7 +42,7 @@
         <span class="text-danger" *ngIf="creationUserFormControl['userEmail'].errors!['emailExists']">
             This email already exists
         </span>
-        </div>
+    </div>
 
     <mat-form-field class="form-item" appearance="fill">
         <mat-label>Age</mat-label>
@@ -66,10 +67,11 @@
         <input matInput type="text" formControlName="company" />
     </mat-form-field>
 
-    <div *ngIf="creationUserFormControl['company'].invalid && (creationUserFormControl['company'].dirty || creationUserFormControl['company'].touched)">
-    <span class="text-danger" *ngIf="creationUserFormControl['company'].errors!['max']">
-        Max length is 35 characters 
-    </span>
+    <div
+        *ngIf="creationUserFormControl['company'].invalid && (creationUserFormControl['company'].dirty || creationUserFormControl['company'].touched)">
+        <span class="text-danger" *ngIf="creationUserFormControl['company'].errors!['max']">
+            Max length is 35 characters
+        </span>
     </div>
 
     <mat-form-field class="form-item" appearance="fill">
@@ -77,11 +79,12 @@
         <input matInput type="text" formControlName="department" />
     </mat-form-field>
 
-    <div *ngIf="creationUserFormControl['department'].invalid && (creationUserFormControl['department'].dirty || creationUserFormControl['department'].touched)">
+    <div
+        *ngIf="creationUserFormControl['department'].invalid && (creationUserFormControl['department'].dirty || creationUserFormControl['department'].touched)">
         <span class="text-danger" *ngIf="creationUserFormControl['department'].errors!['min']">
-            Min length is 6 characters 
+            Min length is 6 characters
         </span>
-        </div>
+    </div>
 
     <div class="form-item">
         <mat-radio-group aria-mat-label="Gender" formControlName="gender" class="gender-group">
@@ -90,10 +93,10 @@
         </mat-radio-group>
 
         <div
-        *ngIf="creationUserFormControl['gender'].invalid && (creationUserFormControl['gender'].dirty || creationUserFormControl['gender'].touched)">
-        <span class="text-danger" *ngIf="creationUserFormControl['gender'].errors!['required']">
-            Required field
-        </span>
-    </div>
+            *ngIf="creationUserFormControl['gender'].invalid && (creationUserFormControl['gender'].dirty || creationUserFormControl['gender'].touched)">
+            <span class="text-danger" *ngIf="creationUserFormControl['gender'].errors!['required']">
+                Required field
+            </span>
+        </div>
     </div>
 </div>
