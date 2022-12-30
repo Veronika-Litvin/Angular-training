@@ -25,8 +25,9 @@ export class UserCreateFormComponent implements OnInit {
       lastName: ['', Validators.required],
       age: [null, [Validators.required, Validators.min(15), Validators.max(100)]],
       userEmail: ['', {
-      validators: [Validators.required, Validators.email, Validators.pattern("^.+@gmail\\.com$")],
-      asyncValidators: [this.checkRepeatingEmailValidator.uniqueEmailValidator()]}],
+        validators: [Validators.required, Validators.email, Validators.pattern("^.+@gmail\\.com$")],
+        asyncValidators: [this.checkRepeatingEmailValidator.uniqueEmailValidator()]
+      }],
       company: ['', [Validators.maxLength(35)]],
       department: ['', [Validators.minLength(6)]],
       gender: [null, Validators.required]

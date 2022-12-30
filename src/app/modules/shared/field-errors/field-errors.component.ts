@@ -1,18 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
+import { ErrorType } from '../models/error-enum';
 import { MessageService } from '../services/message.service';
-
-enum ErrorType {
-    REQUIRED = 'required', 
-    EMAIL = 'email',  
-    EMAIL_PATTERN = 'pattern',
-    MAX = 'max', 
-    MIN = 'min',
-    MAX_LENGTH = 'maxlength', 
-    MIN_LENGTH = 'minlength',
-    EMAIL_REGISTERED = 'emailExists'
-}
-
 
 @Component({
     selector: 'app-field-errors',
@@ -27,12 +16,11 @@ export class FieldErrorsComponent {
 
     error = ErrorType;
 
-    constructor(private messageService: MessageService) {}
+    constructor(private messageService: MessageService) { }
 
     msg(error: ErrorType, replacement: { replace: string, with: string }[] = []): string {
         let message = this.messageService.get(error);
         replacement.forEach(r => message = message.replace(r.replace, r.with));
-        console.log(this.label)
         return message;
     }
 
@@ -44,7 +32,7 @@ export class FieldErrorsComponent {
         return this.formControl.hasError(err);
     }
 
-    get showErrors(): boolean {
+    showErrors(): boolean {
         return this.formControl.touched && this.formControl.invalid;
     }
 

@@ -12,6 +12,8 @@ export class UserCreationPageComponent implements OnInit {
 
   userPageForm!: FormGroup;
 
+  isClickSubmit = false;
+
   constructor(private userService: UserService, private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
@@ -19,12 +21,11 @@ export class UserCreationPageComponent implements OnInit {
   }
 
   saveNewUser() {
+    this.isClickSubmit = true;
     this.userPageForm.markAllAsTouched();
     if (this.userPageForm.valid) {
       this.userService.createUser(this.userPageForm.value.user);
       this.router.navigate(['user']);
-    } else {
-      document.querySelector('.create-page-wrapper')?.classList.add('invalid');
     }
   }
 }
