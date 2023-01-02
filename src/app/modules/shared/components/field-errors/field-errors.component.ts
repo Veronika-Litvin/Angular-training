@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
-import { ErrorType } from '../models/error-enum';
-import { MessageService } from '../services/message.service';
+import { ErrorType } from '../../models/error-enum';
+import { MessageService } from '../../services/message.service';
 
 @Component({
     selector: 'app-field-errors',

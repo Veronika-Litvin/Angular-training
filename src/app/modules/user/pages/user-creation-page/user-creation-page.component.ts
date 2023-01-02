@@ -26,6 +26,7 @@ export class UserCreationPageComponent implements OnInit {
     if (this.userPageForm.valid) {
       this.userService.createUser(this.userPageForm.value.user);
       this.router.navigate(['user']);
+      this.isClickSubmit = false;
     }
   }
 }

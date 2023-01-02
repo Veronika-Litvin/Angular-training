@@ -1,4 +1,4 @@
-<span *ngIf="showErrors">
+<span *ngIf="showErrors()">
 
     <ng-container *ngIf="hasError(error.REQUIRED)">
         {{msg(error.REQUIRED)}}
