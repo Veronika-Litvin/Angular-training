@@ -2,7 +2,10 @@
     display: inline-block;
     .card {
         margin: 10px;
-        width: 200px;
+        width: 220px;
+        .img-wrapper {
+            min-height: 175px;
+        }
     }
 }
 .red {

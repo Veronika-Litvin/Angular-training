@@ -24,6 +24,7 @@ export class UserCreationPageComponent implements OnInit {
     this.isClickSubmit = true;
     this.userPageForm.markAllAsTouched();
     if (this.userPageForm.valid) {
+      console.log('1', this.userPageForm.value.user)
       this.userService.createUser(this.userPageForm.value.user);
       this.router.navigate(['user']);
       this.isClickSubmit = false;

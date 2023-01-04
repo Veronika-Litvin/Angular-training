@@ -6,8 +6,10 @@
     width: 200px;
 }
 .car-img {
+    display: block;
     width: 170px;
-    height: 105px;
+    min-height: 115px;
+    margin: 0 auto;
 }
 .category-name {
     color: rgb(205, 6, 255);
