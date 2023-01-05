@@ -11,7 +11,7 @@ import { IUser } from '../models/user.interface';
 export class UserService {
   users!: IUser[];
 
-  constructor( private favoriteService: FavoriteDataService) {
+  constructor(private favoriteService: FavoriteDataService) {
     this.users = users;
   }
 
@@ -28,7 +28,8 @@ export class UserService {
 
   createUser(newFormUser: IFormUser): void {
     this.users.push({
-      id: Date.now(),
-      ...newFormUser});
+      id: this.users.length + 1,
+      ...newFormUser
+    });
   }
 }

@@ -57,8 +57,6 @@
 
     </div>
 
-        <p>Add your photo</p>
-        <input type="file" formControlName="imageUrl" #inputFile (change)="uploadImageUrl($event)" />
-        <div [innerHtml]='msg' *ngIf="msg" style="color: red;"></div>
+    <app-image-upload [imageControl]="creationUserFormControl['imageUrl']"></app-image-upload>
 
 </div>

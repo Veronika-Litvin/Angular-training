@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { AbstractControl, FormControl } from '@angular/forms';
-import { ErrorType } from '../../models/error-enum';
-import { MessageService } from '../../services/message.service';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { messages } from '../../mocks/messages';
 
 @Component({
     selector: 'app-field-errors',
@@ -11,29 +10,15 @@ import { MessageService } from '../../services/message.service';
 export class FieldErrorsComponent {
     @Input() label!: string;
 
-    // eslint-disable-next-line @angular-eslint/no-input-rename
-    @Input('control') formControl!: FormControl | AbstractControl;
+    @Input() control!: AbstractControl;
 
-    error = ErrorType;
+    showValidationMessage(): string {
+        const errors: ValidationErrors = <ValidationErrors>this.control?.errors;
+        return Object.entries(errors).map(([errorType]) => {
+            const message = messages[errorType].replace(':field:', this.label)
+            .replace(':n:', this.control.getError(errorType)[errorType]);
+            return message;
+        }).reduce((acc, errorMessage) => acc + errorMessage, "");
 
-    constructor(private messageService: MessageService) { }
-
-    msg(error: ErrorType, replacement: { replace: string, with: string }[] = []): string {
-        let message = this.messageService.get(error);
-        replacement.forEach(r => message = message.replace(r.replace, r.with));
-        return message;
     }
-
-    getError(err: ErrorType, key: string | null = null): void {
-        return key ? this.formControl.getError(err)[key] : this.formControl.getError(err);
-    }
-
-    hasError(err: ErrorType): boolean {
-        return this.formControl.hasError(err);
-    }
-
-    showErrors(): boolean {
-        return this.formControl.touched && this.formControl.invalid;
-    }
-
 }
