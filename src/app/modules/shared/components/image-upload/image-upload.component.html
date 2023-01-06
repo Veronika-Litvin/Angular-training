@@ -1,3 +1,2 @@
-<p>Add your photo</p>
 <input type="file" formControlName="imageUrl" #inputFile (change)="uploadImageUrl($event)" />
 <div [innerHtml]='errorMsg' *ngIf="errorMsg" style="color: red;"></div>

@@ -1,8 +1,12 @@
-<form (ngSubmit)="saveNewUser()" class="create-page-wrapper"
+<form (submit)="saveNewUser()" class="create-page-wrapper"
     [ngClass]="{invalid: userPageForm.touched && userPageForm.invalid && isClickSubmit}">
     <h3 class="title">Create user</h3>
 
     <app-user-create-form (initeChildForm)="addChildForm($event, 'user')" class="create-form"></app-user-create-form>
+
+    <h3 class="title">Add address</h3>
+
+    <app-addresses (initAddresses)="addAddresses($event, 'addresses')" class="address-form"></app-addresses>
 
     <button type="submit" class="submit-btn" mat-flat-button color="accent">Save</button>
 

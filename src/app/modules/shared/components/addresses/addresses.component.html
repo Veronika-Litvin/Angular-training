@@ -1,0 +1,33 @@
+<div [formGroup]="form">
+    <ng-container formArrayName="addressesForm" class="addresses-wrapper">
+        <ng-container *ngFor="let address of addressesForm.controls; let i = index" class="address">
+
+            <div [formGroup]="address">
+
+                <mat-form-field class="form-item" appearance="fill">
+                    <mat-label>Adress Line</mat-label>
+                    <textarea matInput type="text" formControlName="addressLine"></textarea>
+                </mat-form-field>
+
+                <app-field-errors class="text-danger" [control]="formArrayControls['addressLine']"
+                    [label]="'Addres line'"></app-field-errors>
+
+                <mat-form-field class="form-item" appearance="fill">
+                    <mat-label>City</mat-label>
+                    <input matInput type="text" formControlName="city" />
+                </mat-form-field>
+
+                <mat-form-field class="form-item" appearance="fill">
+                    <mat-label>Zip</mat-label>
+                    <input matInput type="number" formControlName="zip" />
+                </mat-form-field>
+            </div>
+
+            <button mat-stroked-button color="accent" class="add-btn" (click)="removeAddress(i)">Remove address</button>
+
+        </ng-container>
+    </ng-container>
+    <div class="form-element">
+        <button mat-stroked-button color="accent" class="add-btn" (click)="addAddress($event)">Add address</button>
+    </div>
+</div>

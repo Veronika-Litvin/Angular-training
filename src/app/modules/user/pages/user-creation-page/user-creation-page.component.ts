@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 
@@ -21,6 +21,10 @@ export class UserCreationPageComponent implements OnInit {
   }
 
   addChildForm(form: FormGroup, key: string) {
+    this.userPageForm.addControl(key, form);
+  }
+
+  addAddresses(form: FormArray, key: string) {
     this.userPageForm.addControl(key, form);
   }
 
