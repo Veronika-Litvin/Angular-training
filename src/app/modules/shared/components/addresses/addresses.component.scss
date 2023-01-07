@@ -19,3 +19,11 @@
 input.form-control.ng-invalid {
     border: 2px solid red;
 }
+input:read-only {
+    opacity: 0.3;
+}
+.text-invalid {
+    text-align: center;
+    color: red;
+    font-size: 16px;
+}

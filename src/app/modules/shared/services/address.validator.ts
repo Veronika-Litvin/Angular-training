@@ -1,12 +1,21 @@
-import { FormGroup } from "@angular/forms";
+import { AbstractControl, FormGroup } from "@angular/forms";
 
 export function addressValidator(group: FormGroup) {
-    const city = group.get('city');
-    const zip = group.get('zip');
+    group.get('city')?.valueChanges.subscribe(value => {
+        if (value.length > 0) {
+            group.get('zip')?.setValidators([customRequiredValidator]);
+            group.get('zip')?.enable();
+        } else {
+            group.get('zip')?.clearValidators();
+            group.get('zip')?.disable();
+        }
+        group.get('zip')?.updateValueAndValidity();
+    });
+}
 
-    if(city?.value) {
-        zip?.setErrors({required: true});
-    }else {
-        zip?.setErrors({required: true});
+function customRequiredValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    if (!control.value) {
+        return { 'customRequired': true };
     }
-  }
+    return null;
+}

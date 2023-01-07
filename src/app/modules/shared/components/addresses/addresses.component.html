@@ -17,13 +17,25 @@
                     <input matInput type="text" formControlName="city" />
                 </mat-form-field>
 
+                <app-field-errors class="text-danger" [control]="address.get('city')"
+                    [label]="'Addres line'"></app-field-errors>
+
                 <mat-form-field class="form-item" appearance="fill">
                     <mat-label>Zip</mat-label>
                     <input matInput type="number" formControlName="zip" />
                 </mat-form-field>
+
+                <app-field-errors class="text-danger" [control]="address.get('zip')"
+                    [label]="'Addres line'"></app-field-errors>
+
             </div>
 
-            <button mat-stroked-button color="accent" class="add-btn" (click)="removeAddress(i)">Remove address</button>
+            <div class="text-invalid" *ngIf="impossibleRemoval">
+                You cannot delete a single address
+            </div>
+
+            <button mat-stroked-button color="accent" class="add-btn" (click)="removeAddress(i, $event)">Remove
+                address</button>
 
         </div>
     </ng-container>
