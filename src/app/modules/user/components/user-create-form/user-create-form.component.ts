@@ -10,7 +10,7 @@ import { CheckRepeatingEmailValidator } from '../../../shared/services/check-rep
 })
 
 export class UserCreateFormComponent implements OnInit {
-  @Output() initeChildForm = new EventEmitter<FormGroup>();
+  @Output() initChildForm = new EventEmitter<FormGroup>();
 
   creationUserForm!: FormGroup;
 
@@ -18,7 +18,7 @@ export class UserCreateFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
-    this.initeChildForm.emit(this.creationUserForm);
+    this.initChildForm.emit(this.creationUserForm);
   }
 
   private createForm(): void {

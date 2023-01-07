@@ -39,17 +39,6 @@ export class AddressesComponent implements OnInit {
     return this.addressesForm.controls;
   }
 
-  get formArrayControls() {
-    for (const control of this.addressesForm.controls) {
-      if (control instanceof FormGroup) {
-         return control.controls;
-      }
-   }
-   return null
-  }
-
-
-
   addAddress(e: Event) {
     e.preventDefault();
     this.addressesForm.push(this.initAddressesForm());

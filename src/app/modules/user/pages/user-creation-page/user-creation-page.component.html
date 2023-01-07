@@ -2,7 +2,7 @@
     [ngClass]="{invalid: userPageForm.touched && userPageForm.invalid && isClickSubmit}">
     <h3 class="title">Create user</h3>
 
-    <app-user-create-form (initeChildForm)="addChildForm($event, 'user')" class="create-form"></app-user-create-form>
+    <app-user-create-form (initChildForm)="addChildForm($event, 'user')" class="create-form"></app-user-create-form>
 
     <h3 class="title">Add address</h3>
 
