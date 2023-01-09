@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { addressValidator } from '../../services/address.validator';
+import { AddressValidator } from '../../services/address.validator';
 
 @Component({
   selector: 'app-addresses',
@@ -35,7 +35,7 @@ export class AddressesComponent implements OnInit {
       addressLine: ['', [Validators.required, Validators.minLength(4)]],
       city: [''],
       zip: [{ value: null, disabled: true }],
-    }, { validators: addressValidator });
+    }, { validators: AddressValidator });
   }
 
   get addressesControls() {

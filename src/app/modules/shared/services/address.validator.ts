@@ -1,6 +1,6 @@
 import { AbstractControl, FormGroup } from "@angular/forms";
 
-export function addressValidator(group: FormGroup) {
+export function AddressValidator(group: FormGroup) {
     group.get('city')?.valueChanges.subscribe(value => {
         if (value.length > 0) {
             group.get('zip')?.setValidators([customRequiredValidator]);
