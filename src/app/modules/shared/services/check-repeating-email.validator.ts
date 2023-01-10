@@ -12,7 +12,7 @@ export class CheckRepeatingEmailValidator {
     return of(email).pipe(
       delay(500),
       map((email) => {
-        const emails = this.userService.getUsers().map(user => user.email);
+        const emails = this.userService.getUsers().map(user => user.userEmail);
         return emails.includes(email);
       })
     );
