@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { defaultImg } from '../../mocks/user-list';
 import { IUser } from '../../models/user.interface';
 
@@ -14,11 +15,15 @@ export class UserListItemComponent {
   @Output() favoriteChangedEvent = new EventEmitter();
   defaultImg!: string;
 
-  constructor() {
+  constructor(private router: Router) {
     this.defaultImg = defaultImg;
   }
 
   toggleFavorits(): void {
     this.favoriteChangedEvent.emit();
+  }
+
+  navigateEditPage(id: number): void {
+    this.router.navigate(['/edit-user', id])
   }
 }

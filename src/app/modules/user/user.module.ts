@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { UserCreateFormComponent } from './components/user-create-form/user-create-form.component';
+import { UserEditPageComponent } from './pages/user-edit-page/user-edit-page.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { UserCreateFormComponent } from './components/user-create-form/user-crea
     UsersPageComponent,
     UserListComponent,
     UserCreationPageComponent,
-    UserCreateFormComponent
+    UserCreateFormComponent,
+    UserEditPageComponent
   ],
   imports: [
     CommonModule,

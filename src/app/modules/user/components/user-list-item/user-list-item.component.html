@@ -1,22 +1,27 @@
-<app-card (toggleItemEvent)="toggleFavorits()" [isFavorite] = "isFavorite">
-  <p titleData><span class="category-name">Name: </span>{{user.firstName}} <strong>{{user.age}}</strong></p>
-    <img imgUrl class="user-img" [src]="user.imageUrl || defaultImg" alt="User image">
+<app-card (toggleItemEvent)="toggleFavorits()" [isFavorite]="isFavorite">
+  <div titleData class="header">
+    <p><span class="category-name">Name: </span>{{user.firstName}} <strong>{{user.age}}</strong></p>
+    <button mat-icon-button (click)="navigateEditPage(user.id)">
+      <mat-icon>create</mat-icon>
+    </button>
+  </div>
+  <img imgUrl class="user-img" [src]="user.imageUrl || defaultImg" alt="User image">
 
-    <div additionalData>
-      <p><span class="category-name">Gender: </span> {{user.gender ? 'female' : 'male'}}</p>
-      <p><span class="category-name">Department: </span>{{user.department}}</p>
-      <p><span class="category-name">Company: </span>{{user.company}}</p>
-      <ng-container *ngFor="let address of user.addresses; let i = index">
+  <div additionalData>
+    <p><span class="category-name">Gender: </span> {{user.gender ? 'female' : 'male'}}</p>
+    <p><span class="category-name">Department: </span>{{user.department}}</p>
+    <p><span class="category-name">Company: </span>{{user.company}}</p>
+    <ng-container *ngFor="let address of user.addresses; let i = index">
+      <div>
+        <p class="category-name">Address:</p>
         <div>
-            <p class="category-name">Address:</p>
-            <div>
-                <p><i>Address line:</i> {{address.addressLine}}</p>
-                <ng-container *ngIf="address.city">
-                    <p><i>City:</i> {{address.city}}; </p>
-                    <p><i>Zip:</i> {{address.zip}}</p>
-                </ng-container>
-            </div>
+          <p><i>Address line:</i> {{address.addressLine}}</p>
+          <ng-container *ngIf="address.city">
+            <p><i>City:</i> {{address.city}}; </p>
+            <p><i>Zip:</i> {{address.zip}}</p>
+          </ng-container>
         </div>
-      </ng-container>
-    </div>
+      </div>
+    </ng-container>
+  </div>
 </app-card>

@@ -5,6 +5,16 @@
     margin: 10px;
     width: 200px;
 }
+.header {
+    display: flex;
+    justify-content: space-between;
+    line-height: 50px;
+    p {
+        margin: 0px;
+        vertical-align: middle;
+
+    }
+}
 .user-img {
     display: block;
     width: 170px;

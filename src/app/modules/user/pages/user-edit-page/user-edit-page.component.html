@@ -1,0 +1,17 @@
+<form (submit)="editUser()" class="edit-page-wrapper"
+    [ngClass]="{invalid: editPageForm.touched && editPageForm.invalid && isClickSubmit}">
+    <h3 class="title">Edit user</h3>
+
+    <app-user-create-form (initChildForm)="addChildForm($event, 'user')" class="create-form"></app-user-create-form>
+
+    <h3 class="title">Edit address</h3>
+
+    <app-addresses (initAddresses)="addChildForm($event, 'addresses')" class="address-form"></app-addresses>
+
+    <button type="submit" class="submit-btn" mat-flat-button color="accent">Save</button>
+
+    <div class="text-invalid" *ngIf="editPageForm.touched && editPageForm.invalid && isClickSubmit">
+        Invalid form
+    </div>
+
+</form>
