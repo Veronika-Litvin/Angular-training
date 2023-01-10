@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FavoriteTypes } from 'src/app/modules/shared/models/favorite-enum';
+import { FavoriteTypes } from 'src/app/modules/shared/models/favorite.enum';
 import { FavoriteDataService } from 'src/app/modules/shared/services/favorite-data.service';
 import { ICar } from '../../models/car.interface';
 import { CarService } from '../../services/car.service';

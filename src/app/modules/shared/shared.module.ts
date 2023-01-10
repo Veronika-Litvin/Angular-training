@@ -10,13 +10,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { AddressComponent } from './components/address/address.component';
 
 @NgModule({
   declarations: [
     CardComponent,
     FieldErrorsComponent,
     ImageUploadComponent,
-    AddressesComponent
+    AddressesComponent,
+    AddressComponent
   ],
   imports: [
     CommonModule,

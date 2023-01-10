@@ -1,3 +1,5 @@
+import { Address } from "../../shared/models/addresses.interface";
+
 export interface IUser {
     id: number;
     firstName: string;
@@ -8,4 +10,5 @@ export interface IUser {
     department: string;
     company: string;
     imageUrl?: string;
+    addresses: Address[];
 }

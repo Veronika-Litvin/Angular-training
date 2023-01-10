@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FavoriteTypes } from '../models/favorite-enum';
-import { FavoriteStore } from '../models/favorite-type';
-
+import { FavoriteTypes } from '../models/favorite.enum';
+import { FavoriteStore } from '../models/favorite.type';
 @Injectable({providedIn: 'root'})
 export class FavoriteDataService {
     store: FavoriteStore = {

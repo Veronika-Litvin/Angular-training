@@ -6,5 +6,17 @@
       <p><span class="category-name">Gender: </span> {{user.gender ? 'female' : 'male'}}</p>
       <p><span class="category-name">Department: </span>{{user.department}}</p>
       <p><span class="category-name">Company: </span>{{user.company}}</p>
+      <ng-container *ngFor="let address of user.addresses; let i = index">
+        <div>
+            <p class="category-name">Address:</p>
+            <div>
+                <p><i>Address line:</i> {{address.addressLine}}</p>
+                <ng-container *ngIf="address.city">
+                    <p><i>City:</i> {{address.city}}; </p>
+                    <p><i>Zip:</i> {{address.zip}}</p>
+                </ng-container>
+            </div>
+        </div>
+      </ng-container>
     </div>
 </app-card>

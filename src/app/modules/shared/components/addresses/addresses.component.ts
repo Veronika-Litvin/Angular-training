@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AddressValidator } from '../../services/address.validator';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-addresses',
@@ -11,51 +10,41 @@ export class AddressesComponent implements OnInit {
 
   @Output() initAddresses = new EventEmitter<FormArray>();
 
-  form!: FormGroup;
-
-  impossibleRemoval = false;
-
-  get addressesForm() {
-    return this.form.controls["addressesForm"] as FormArray;
-  }
-
   constructor(private formBuilder: FormBuilder) { }
 
-  ngOnInit(): void {
-    this.initAddressesForm();
-    this.form = this.formBuilder.group({
-      addressesForm: this.formBuilder.array([this.initAddressesForm()])
-    })
+  addressesForm = this.formBuilder.group({
+    addresses: this.formBuilder.array([])
+  });
 
-    this.initAddresses.emit(this.addressesForm);
+  ngOnInit(): void {
+    this.addAddress();
+    this.initAddresses.emit(this.addresses);
   }
 
-  initAddressesForm() {
-    return this.formBuilder.group({
+  get addresses(): FormArray {
+    return this.addressesForm.controls["addresses"] as FormArray;
+  }
+
+  addAddress() {
+    const addressForm = this.formBuilder.group({
       addressLine: ['', [Validators.required, Validators.minLength(4)]],
       city: [''],
-      zip: [{ value: null, disabled: true }],
-    }, { validators: AddressValidator });
-  }
+      zip: [{ value: null, disabled: true }, Validators.required],
+    });
 
-  get addressesControls() {
-    return this.addressesForm.controls;
-  }
-
-  addAddress(e: Event) {
-    e.preventDefault();
-    this.addressesForm.push(this.initAddressesForm());
-    this.impossibleRemoval = false;
+    addressForm.get('city')!.valueChanges.subscribe(value => {
+      if (value) {
+        addressForm.get('zip')!.enable();
+        addressForm.get('zip')!.setErrors({ 'customRequired': true });
+      } else {
+        addressForm.get('zip')!.disable();
+      }
+    });
+    this.addresses.push(addressForm);
   }
 
   removeAddress(i: number, e: Event) {
     e.preventDefault();
-    if (this.addressesForm.length > 1) {
-      this.addressesForm.removeAt(i);
-      this.impossibleRemoval = false;
-    } else {
-      this.impossibleRemoval = true;
-    }
+    this.addresses.removeAt(i);
   }
-
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FavoriteTypes } from '../../shared/models/favorite-enum';
+import { Address } from '../../shared/models/addresses.interface';
+import { FavoriteTypes } from '../../shared/models/favorite.enum';
 import { FavoriteDataService } from '../../shared/services/favorite-data.service';
 import { users } from '../mocks/user-list';
 import { IFormUser } from '../models/form-user-data.interface';
@@ -9,14 +10,11 @@ import { IUser } from '../models/user.interface';
   providedIn: 'root'
 })
 export class UserService {
-  users!: IUser[];
 
-  constructor(private favoriteService: FavoriteDataService) {
-    this.users = users;
-  }
+  constructor(private favoriteService: FavoriteDataService) { }
 
   getUsers(): IUser[] {
-    return this.users;
+    return users;
   }
 
   getFavoriteUsers(): IUser[] {
@@ -26,10 +24,11 @@ export class UserService {
     });
   }
 
-  createUser(newFormUser: IFormUser): void {
-    this.users.push({
-      id: this.users.length + 1,
-      ...newFormUser
+  createUser(newFormUser: IFormUser, addresses: Address[]): void {
+    users.push({
+      id: users.length + 1,
+      ...newFormUser,
+      addresses
     });
   }
 }

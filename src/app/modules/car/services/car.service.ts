@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FavoriteTypes } from '../../shared/models/favorite-enum';
+import { FavoriteTypes } from '../../shared/models/favorite.enum';
 import { FavoriteDataService } from '../../shared/services/favorite-data.service';
 import { cars } from '../mocks/car-list';
 import { ICar } from '../models/car.interface';

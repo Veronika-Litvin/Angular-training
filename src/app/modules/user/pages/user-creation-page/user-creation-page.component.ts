@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 
@@ -24,15 +24,11 @@ export class UserCreationPageComponent implements OnInit {
     this.userPageForm.addControl(key, form);
   }
 
-  addAddresses(form: FormArray, key: string) {
-    this.userPageForm.addControl(key, form);
-  }
-
   saveNewUser() {
     this.isClickSubmit = true;
     this.userPageForm.markAllAsTouched();
     if (this.userPageForm.valid) {
-      this.userService.createUser(this.userPageForm.value.user);
+      this.userService.createUser(this.userPageForm.value.user, this.userPageForm.value.addresses);
       this.router.navigate(['user']);
       this.isClickSubmit = false;
     }

@@ -3,27 +3,9 @@
     padding: 10px;
     border: 1px solid black;
 }
-.form-item {
-    display: block;
-}
-.add-btn {
+
+.add-btn,
+.remove-btn {
     display: block;
     margin: 10px auto;
-}
-.text-danger {
-    display: block;
-    padding-left: 10px;
-    margin-bottom: 10px;
-    color: red;
-}
-input.form-control.ng-invalid {
-    border: 2px solid red;
-}
-input:read-only {
-    opacity: 0.3;
-}
-.text-invalid {
-    text-align: center;
-    color: red;
-    font-size: 16px;
 }
