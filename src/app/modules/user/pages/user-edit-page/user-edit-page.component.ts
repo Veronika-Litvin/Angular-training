@@ -69,7 +69,7 @@ export class UserEditPageComponent implements OnInit, OnDestroy {
     this.isClickSubmit = true;
     this.editPageForm.markAllAsTouched();
     if (this.editPageForm.valid) {
-      this.userService.createUser(this.editPageForm.value.user, this.editPageForm.value.addresses);
+      this.userService.updateUser(this.currentUser.id, this.editPageForm.value.user, this.editPageForm.value.addresses);
       this.router.navigate(['user']);
       this.isClickSubmit = false;
     }

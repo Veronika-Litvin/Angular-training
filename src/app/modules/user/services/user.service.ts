@@ -31,4 +31,16 @@ export class UserService {
       addresses
     });
   }
+
+  updateUser(userId: number, newFormUser: IUser, addresses: Address[]) {
+    const editableUser = this.getUsers().find(user => user.id === userId);
+    editableUser!.id = userId;
+    editableUser!.firstName = newFormUser.firstName;
+    editableUser!.lastName = newFormUser.lastName;
+    editableUser!.age = newFormUser.age;
+    editableUser!.company = newFormUser.company;
+    editableUser!.department = newFormUser.department;
+    editableUser!.userEmail = newFormUser.userEmail;
+    editableUser!.addresses = addresses;    
+  }
 }
