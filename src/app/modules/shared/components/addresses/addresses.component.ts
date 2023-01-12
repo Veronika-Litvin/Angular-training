@@ -1,16 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-addresses',
   templateUrl: './addresses.component.html',
   styleUrls: ['./addresses.component.scss'],
 })
-export class AddressesComponent implements OnInit {
+export class AddressesComponent implements OnInit, OnDestroy {
 
   @Output() initAddresses = new EventEmitter<FormArray>();
 
   @Input() addressesAmount!: number;
+
+  subscriptions: Subscription[] = [];
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -36,7 +39,7 @@ export class AddressesComponent implements OnInit {
       zip: [{ value: null, disabled: true }, Validators.required],
     });
 
-    addressForm.get('city')!.valueChanges.subscribe(value => {
+    const addressFormSubscription = addressForm.get('city')!.valueChanges.subscribe(value => {
       if (value) {
         addressForm.get('zip')!.enable();
         addressForm.get('zip')!.setErrors({ 'customRequired': true });
@@ -44,6 +47,7 @@ export class AddressesComponent implements OnInit {
         addressForm.get('zip')!.disable();
       }
     });
+      this.subscriptions.push(addressFormSubscription);
       this.addresses.push(addressForm);
     }
   }
@@ -51,5 +55,9 @@ export class AddressesComponent implements OnInit {
   removeAddress(i: number, e: Event) {
     e.preventDefault();
     this.addresses.removeAt(i);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }
