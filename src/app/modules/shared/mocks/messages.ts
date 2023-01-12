@@ -4,8 +4,8 @@ interface IMessagesKeys {
 
 export const messages: IMessagesKeys = {
   required: ':field: is required. ',
-  maxlength: ':field: must be at most :n: characters length.',
-  minlength: ':field: must be at least :n: characters length.',
+  maxlength: ':field: must be at most 35 characters length.',
+  minlength: ':field: must be at least 6 characters length.',
   max: ':field: must be at most :n:.',
   min: ':field: must be at least :n:.',
   email: 'Please enter a valid email address. ',

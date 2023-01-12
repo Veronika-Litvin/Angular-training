@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { merge, of, Subscription, switchMap } from 'rxjs';
+import { merge, Observable, of, Subscription, switchMap } from 'rxjs';
+import { LeavePageGuard } from 'src/app/modules/shared/guards/leave-page.guard';
 import { IUser } from '../../models/user.interface';
 import { UserService } from '../../services/user.service';
 
@@ -10,7 +11,7 @@ import { UserService } from '../../services/user.service';
   templateUrl: './user-edit-page.component.html',
   styleUrls: ['./user-edit-page.component.scss']
 })
-export class UserEditPageComponent implements OnInit, OnDestroy {
+export class UserEditPageComponent implements OnInit, OnDestroy, LeavePageGuard {
   editPageForm!: FormGroup;
 
   isClickSubmit = false;
@@ -25,10 +26,18 @@ export class UserEditPageComponent implements OnInit, OnDestroy {
     this.editPageForm = this.formBuilder.group({});
   }
 
+  canDeactivate(): boolean | Observable<boolean> {
+    if (!this.isClickSubmit && this.editPageForm.touched) {
+      return confirm("You have some unsaved changes and it will be lost. Do you want to leave the page?");
+    }
+    else {
+      return true;
+    }
+  }
+
   get addresses(): FormArray {
     return this.editPageForm.get('addresses') as FormArray;
   }
-
 
   addChildForm(form: FormGroup, key: string) {
     this.editPageForm.addControl(key, form);
@@ -71,7 +80,6 @@ export class UserEditPageComponent implements OnInit, OnDestroy {
     if (this.editPageForm.valid) {
       this.userService.updateUser(this.currentUser.id, this.editPageForm.value.user, this.editPageForm.value.addresses);
       this.router.navigate(['user']);
-      this.isClickSubmit = false;
     }
   }
 

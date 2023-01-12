@@ -18,7 +18,6 @@ export class AddressesComponent implements OnInit {
     addresses: this.formBuilder.array([])
   });
 
-
   ngOnInit(): void {
     this.addAddress(this.addressesAmount);
     this.initAddresses.emit(this.addresses);

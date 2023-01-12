@@ -20,10 +20,14 @@ export class CheckRepeatingEmailValidator {
 
   validate(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if(control.touched) {
       return this.emailExists(control.value).pipe(
         map((exists) => (exists ? { emailExists: true } : null)),
         catchError(() => of(null))
       );
+      } else {
+        return of(null);
+      }
     };
   }
 }
