@@ -18,19 +18,17 @@ export class UserEditPageComponent implements OnInit, OnDestroy, AfterViewInit, 
 
   currentUser: IUser | null = null;
 
-  id!: number;
-
   subscriptions: Subscription[] = [];
 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.editPageForm = this.formBuilder.group({ });
+    this.editPageForm = this.formBuilder.group({});
 
     this.route.data.subscribe(({ user }) => {
-          if(user) {
-            this.currentUser = user;
-          }
+      if (user) {
+        this.currentUser = user;
+      }
     })
   }
 
@@ -42,7 +40,7 @@ export class UserEditPageComponent implements OnInit, OnDestroy, AfterViewInit, 
       }
       this.checkValueChanges();
     });
-   
+
   }
 
   ngOnDestroy(): void {
@@ -79,8 +77,8 @@ export class UserEditPageComponent implements OnInit, OnDestroy, AfterViewInit, 
   editUser(): void {
     this.isClickSubmit = true;
     this.editPageForm.markAllAsTouched();
-    if (this.editPageForm.valid) {
-      this.userService.updateUser(this.id, this.editPageForm.value.user, this.editPageForm.value.addresses).subscribe();
+    if (this.editPageForm.valid || this.editPageForm.pending) {
+      this.userService.updateUser(this.currentUser!.id, this.editPageForm.value.user, this.editPageForm.value.addresses);
       this.router.navigate(['user']);
     }
   }
