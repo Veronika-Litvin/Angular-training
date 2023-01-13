@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { delay, find, map, mergeMap, Observable, of } from 'rxjs';
+import { BehaviorSubject, delay, find, map, mergeMap, Observable, of } from 'rxjs';
 import { Address } from '../../shared/models/addresses.interface';
 import { FavoriteTypes } from '../../shared/models/favorite.enum';
 import { FavoriteDataService } from '../../shared/services/favorite-data.service';
@@ -11,6 +11,8 @@ import { IUser } from '../models/user.interface';
   providedIn: 'root'
 })
 export class UserService {
+
+  users$ = new BehaviorSubject([]);
 
   constructor(private favoriteService: FavoriteDataService) { }
 
@@ -45,13 +47,12 @@ export class UserService {
     });
   }
 
-  updateUser(userId: number, newFormUser: IUser, addresses: Address[]): void {
-    this.getUsers()
+  updateUser(userId: number, newFormUser: IUser, addresses: Address[]): Observable<void> {
+    return this.getUsers()
     .pipe(
       mergeMap(users => users), 
       find(user => user.id === userId),
-
-    ).forEach(editableUser => {
+      map(editableUser => {
         editableUser!.id = userId;
         editableUser!.firstName = newFormUser.firstName;
         editableUser!.lastName = newFormUser.lastName;
@@ -60,6 +61,6 @@ export class UserService {
         editableUser!.department = newFormUser.department;
         editableUser!.userEmail = newFormUser.userEmail;
         editableUser!.addresses = addresses;   
-    }); 
+      })); 
   }
 }
