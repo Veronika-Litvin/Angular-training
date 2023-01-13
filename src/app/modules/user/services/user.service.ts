@@ -17,6 +17,10 @@ export class UserService {
     return users;
   }
 
+  getUserById(id: number): IUser | undefined {
+    return this.getUsers().find(user => user.id === id);
+  }
+
   getFavoriteUsers(): IUser[] {
     const favoriteIds = this.favoriteService.getFavorites(FavoriteTypes.User);
     return this.getUsers().filter((user) => {
@@ -32,7 +36,7 @@ export class UserService {
     });
   }
 
-  updateUser(userId: number, newFormUser: IUser, addresses: Address[]) {
+  updateUser(userId: number, newFormUser: IUser, addresses: Address[]): void {
     const editableUser = this.getUsers().find(user => user.id === userId);
     editableUser!.id = userId;
     editableUser!.firstName = newFormUser.firstName;

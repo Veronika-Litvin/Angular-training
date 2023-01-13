@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot } from '@angular/router';
+import { CanDeactivate } from '@angular/router';
 import { Observable } from 'rxjs';
-import { UserEditPageComponent } from '../../user/pages/user-edit-page/user-edit-page.component';
+
+export interface CanDeactivateComponent {
+  canDeactivate(): Observable<boolean> | boolean;
+}
 
 @Injectable({
   providedIn: 'root'
 })
-export class LeavePageGuard implements CanDeactivate<UserEditPageComponent> {
-  canDeactivate(
-    component: UserEditPageComponent,
-    currentRoute: ActivatedRouteSnapshot,
-    currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot): Observable<boolean> | boolean {
-      return component.canDeactivate ? component.canDeactivate() : true;
-
+export class LeavePageGuard implements CanDeactivate<CanDeactivateComponent> {
+  canDeactivate(component: CanDeactivateComponent): boolean {
+     return !component.canDeactivate()
+     ? confirm("You have some unsaved changes and it will be lost. Do you want to leave the page?") 
+     : true;
   }
   
 }

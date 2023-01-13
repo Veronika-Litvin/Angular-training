@@ -1,5 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { gmailFormatValidator } from 'src/app/modules/shared/services/email-format-validator';
 import { CheckRepeatingEmailValidator } from '../../../shared/services/check-repeating-email.validator';
 
@@ -11,6 +11,8 @@ import { CheckRepeatingEmailValidator } from '../../../shared/services/check-rep
 
 export class UserCreateFormComponent implements OnInit {
   @Output() initChildForm = new EventEmitter<FormGroup>();
+
+  @Input() isEditEmail!: string;
 
   creationUserForm!: FormGroup;
 
@@ -28,7 +30,7 @@ export class UserCreateFormComponent implements OnInit {
       age: [null, [Validators.required, Validators.min(15), Validators.max(100)]],
       userEmail: ['', {
         validators: [Validators.required, Validators.email, gmailFormatValidator],
-        asyncValidators: [this.checkRepeatingEmailValidator.validate()]
+        asyncValidators: [this.checkRepeatingEmailValidator.validate(this.isEditEmail)]
       }],
       company: ['', [Validators.required, Validators.maxLength(35)]],
       department: ['', [Validators.required, Validators.minLength(6)]],
@@ -37,7 +39,7 @@ export class UserCreateFormComponent implements OnInit {
     })
   }
 
-  get creationUserFormControl() {
+  get creationUserFormControl(): { [key: string]: AbstractControl } {
     return this.creationUserForm.controls;
   }
 

@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { merge, Observable, of, Subscription, switchMap } from 'rxjs';
-import { LeavePageGuard } from 'src/app/modules/shared/guards/leave-page.guard';
+import { merge, Subscription } from 'rxjs';
+import { CanDeactivateComponent } from 'src/app/modules/shared/guards/leave-page.guard';
 import { IUser } from '../../models/user.interface';
 import { UserService } from '../../services/user.service';
 
@@ -11,12 +11,14 @@ import { UserService } from '../../services/user.service';
   templateUrl: './user-edit-page.component.html',
   styleUrls: ['./user-edit-page.component.scss']
 })
-export class UserEditPageComponent implements OnInit, OnDestroy, LeavePageGuard {
+export class UserEditPageComponent implements OnInit, OnDestroy, AfterViewInit, CanDeactivateComponent {
   editPageForm!: FormGroup;
 
   isClickSubmit = false;
 
-  currentUser!: IUser;
+  currentUser: IUser | null = null;
+
+  id!: number;
 
   subscriptions: Subscription[] = [];
 
@@ -24,42 +26,47 @@ export class UserEditPageComponent implements OnInit, OnDestroy, LeavePageGuard 
 
   ngOnInit(): void {
     this.editPageForm = this.formBuilder.group({});
+
+    const patchSubscription = this.route.paramMap
+    .subscribe((params: ParamMap) => {
+      this.id = +params.get('id')!;
+      const user = this.userService.getUserById(this.id);
+
+      if(user) {
+        this.currentUser = user;
+      }
+    });
+
+    this.subscriptions.push(patchSubscription);
   }
 
-  canDeactivate(): boolean | Observable<boolean> {
-    if (!this.isClickSubmit && this.editPageForm.touched) {
-      return confirm("You have some unsaved changes and it will be lost. Do you want to leave the page?");
-    }
-    else {
-      return true;
-    }
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.editPageForm.get('user')!.patchValue(this.currentUser);
+      if (this.addresses) {
+        this.addresses.patchValue(this.currentUser!.addresses);
+      }
+    });
+    this.checkValueChanges();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
+
+  canDeactivate(): boolean {
+    return this.isClickSubmit || !this.editPageForm.dirty;
   }
 
   get addresses(): FormArray {
     return this.editPageForm.get('addresses') as FormArray;
   }
 
-  addChildForm(form: FormGroup, key: string) {
+  addChildForm(form: FormGroup, key: string): void {
     this.editPageForm.addControl(key, form);
-
-    const patchSubscription = this.route.paramMap.pipe(
-      switchMap((params: ParamMap) =>
-        of(params.get('id'))
-      )
-    ).subscribe(currentUserId => {
-      this.currentUser = this.userService.getUsers().find(user => user.id === Number(currentUserId))!;
-      this.editPageForm.get('user')!.patchValue(this.currentUser);
-      if (this.addresses) {
-        this.addresses.patchValue(this.currentUser.addresses);
-      }
-    });
-
-    this.subscriptions.push(patchSubscription);
-
-    this.checkValueChanges();
   }
 
-  checkValueChanges() {
+  checkValueChanges(): void {
     const firstNameControl = this.editPageForm.controls['user'].get('firstName');
     const lastNameControl = this.editPageForm.controls['user'].get('lastName');
 
@@ -74,17 +81,13 @@ export class UserEditPageComponent implements OnInit, OnDestroy, LeavePageGuard 
     this.subscriptions.push(valueChangesSubscription);
   }
 
-  editUser() {
+  editUser(): void {
     this.isClickSubmit = true;
     this.editPageForm.markAllAsTouched();
     if (this.editPageForm.valid) {
-      this.userService.updateUser(this.currentUser.id, this.editPageForm.value.user, this.editPageForm.value.addresses);
+      this.userService.updateUser(this.id, this.editPageForm.value.user, this.editPageForm.value.addresses);
       this.router.navigate(['user']);
     }
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
 }

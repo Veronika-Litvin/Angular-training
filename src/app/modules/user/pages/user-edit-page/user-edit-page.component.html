@@ -2,11 +2,11 @@
     [ngClass]="{invalid: editPageForm.touched && editPageForm.invalid && isClickSubmit}">
     <h3 class="title">Edit user</h3>
 
-    <app-user-create-form (initChildForm)="addChildForm($event, 'user')" class="create-form"></app-user-create-form>
+    <app-user-create-form (initChildForm)="addChildForm($event, 'user')" [isEditEmail]='currentUser!.userEmail' class="create-form"></app-user-create-form>
 
     <h3 class="title">Edit address</h3>
 
-    <app-addresses [addressesAmount]="currentUser.addresses.length" (initAddresses)="addChildForm($event, 'addresses')" class="address-form"></app-addresses>
+    <app-addresses [addressesAmount]="currentUser!.addresses.length" (initAddresses)="addChildForm($event, 'addresses')" class="address-form"></app-addresses>
 
     <button type="submit" class="submit-btn" mat-flat-button color="accent">Save</button>
 
