@@ -18,13 +18,13 @@ export class UsersPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.users = this.userService.getUsers();
+    this.userService.getUsers().subscribe(users => this.users = users);
     this.favoriteIds = this.favoriteDataService.getFavorites(FavoriteTypes.User)
-    this.favoriteUsers = this.userService.getFavoriteUsers();
+    this.userService.getFavoriteUsers().subscribe(favoriteUsers => this.favoriteUsers = favoriteUsers);
   }
 
   updateFavoriteUser(user: IUser):void {
     this.favoriteIds = this.favoriteDataService.updateFavoriteItems(FavoriteTypes.User, user.id);
-    this.favoriteUsers = this.userService.getFavoriteUsers();
+    this.userService.getFavoriteUsers().subscribe(favoriteUsers => this.favoriteUsers = favoriteUsers);
   }
 }

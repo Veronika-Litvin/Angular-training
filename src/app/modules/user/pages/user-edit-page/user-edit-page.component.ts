@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { merge, Subscription } from 'rxjs';
+import { merge, mergeMap, Subscription } from 'rxjs';
 import { CanDeactivateComponent } from 'src/app/modules/shared/guards/leave-page.guard';
 import { IUser } from '../../models/user.interface';
 import { UserService } from '../../services/user.service';
@@ -28,25 +28,32 @@ export class UserEditPageComponent implements OnInit, OnDestroy, AfterViewInit, 
     this.editPageForm = this.formBuilder.group({});
 
     const patchSubscription = this.route.paramMap
-    .subscribe((params: ParamMap) => {
-      this.id = +params.get('id')!;
-      const user = this.userService.getUserById(this.id);
+    .pipe(
+      mergeMap((params: ParamMap) => {
+        this.id = +params.get('id')!;
+        return this.userService.getUserById(this.id)
+      })
+    ).subscribe(user => {
+        if(user) {
+          this.currentUser = user;
+        }
+    })
 
-      if(user) {
-        this.currentUser = user;
-      }
-    });
+    this.route.paramMap.pipe(
+      mergeMap((params: ParamMap) => {
+        this.id = +params.get('id')!;
+        return this.userService.getUserById(this.id)
+      })
+    )
 
     this.subscriptions.push(patchSubscription);
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
       this.editPageForm.get('user')!.patchValue(this.currentUser);
       if (this.addresses) {
         this.addresses.patchValue(this.currentUser!.addresses);
       }
-    });
     this.checkValueChanges();
   }
 

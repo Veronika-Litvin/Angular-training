@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { delay, find, map, mergeMap, Observable, of } from 'rxjs';
 import { Address } from '../../shared/models/addresses.interface';
 import { FavoriteTypes } from '../../shared/models/favorite.enum';
 import { FavoriteDataService } from '../../shared/services/favorite-data.service';
@@ -13,19 +14,27 @@ export class UserService {
 
   constructor(private favoriteService: FavoriteDataService) { }
 
-  getUsers(): IUser[] {
-    return users;
+  getUsers(): Observable<IUser[]> {
+    return of(users).pipe(delay(1000));
   }
 
-  getUserById(id: number): IUser | undefined {
-    return this.getUsers().find(user => user.id === id);
+  getUserById(id: number): Observable<IUser | undefined> {
+    return this.getUsers()
+    .pipe(
+      mergeMap(users => users), 
+      find(user => user.id === id)
+    )
   }
 
-  getFavoriteUsers(): IUser[] {
+  getFavoriteUsers(): Observable<IUser[]> {
     const favoriteIds = this.favoriteService.getFavorites(FavoriteTypes.User);
-    return this.getUsers().filter((user) => {
-      return favoriteIds.includes(user.id);
-    });
+
+    return this.getUsers()
+    .pipe(
+      map((users) => {
+        return users.filter(user => favoriteIds.includes(user.id));
+      })
+    )
   }
 
   createUser(newFormUser: IFormUser, addresses: Address[]): void {
@@ -37,14 +46,20 @@ export class UserService {
   }
 
   updateUser(userId: number, newFormUser: IUser, addresses: Address[]): void {
-    const editableUser = this.getUsers().find(user => user.id === userId);
-    editableUser!.id = userId;
-    editableUser!.firstName = newFormUser.firstName;
-    editableUser!.lastName = newFormUser.lastName;
-    editableUser!.age = newFormUser.age;
-    editableUser!.company = newFormUser.company;
-    editableUser!.department = newFormUser.department;
-    editableUser!.userEmail = newFormUser.userEmail;
-    editableUser!.addresses = addresses;    
+    this.getUsers()
+    .pipe(
+      mergeMap(users => users), 
+      find(user => user.id === userId),
+
+    ).forEach(editableUser => {
+        editableUser!.id = userId;
+        editableUser!.firstName = newFormUser.firstName;
+        editableUser!.lastName = newFormUser.lastName;
+        editableUser!.age = newFormUser.age;
+        editableUser!.company = newFormUser.company;
+        editableUser!.department = newFormUser.department;
+        editableUser!.userEmail = newFormUser.userEmail;
+        editableUser!.addresses = addresses;   
+    }); 
   }
 }

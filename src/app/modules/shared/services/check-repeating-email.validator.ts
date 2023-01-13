@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AbstractControl, AsyncValidatorFn, ValidationErrors } from "@angular/forms";
-import { catchError, delay, map, Observable, of } from "rxjs";
+import { catchError, map, Observable, of } from "rxjs";
 import { UserService } from "../../user/services/user.service";
 
 @Injectable({ providedIn: 'root' })
@@ -9,11 +9,9 @@ export class CheckRepeatingEmailValidator {
   constructor(private userService: UserService) { }
 
   emailExists(email: string): Observable<boolean> {
-    return of(email).pipe(
-      delay(500),
-      map((email) => {
-        const emails = this.userService.getUsers().map(user => user.userEmail);
-        return emails.includes(email);
+    return this.userService.getUsers().pipe(
+      map(users => {
+        return users.map(user => user.userEmail).includes(email)
       })
     );
   }
