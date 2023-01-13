@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { Observable, startWith } from 'rxjs';
 import { FavoriteTypes } from 'src/app/modules/shared/models/favorite.enum';
 import { FavoriteDataService } from 'src/app/modules/shared/services/favorite-data.service';
 import { IUser } from '../../models/user.interface';
@@ -10,22 +12,29 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./users-page.component.scss']
 })
 export class UsersPageComponent implements OnInit {
-  users: IUser[] = [];
-  favoriteUsers: IUser[] = [];
+  users$!: Observable<IUser[]>;
+  favoriteUsers$!: Observable<IUser[]>;
   favoriteIds: number[] = [];
 
-  constructor(private userService: UserService, private favoriteDataService: FavoriteDataService) {
+  filter: FormControl;
+  filter$: Observable<string>;
+  
+
+  constructor(private userService: UserService, private favoriteDataService: FavoriteDataService, private formBuilder: FormBuilder) {
+
+    this.filter = new FormControl("");
+    this.filter$ = this.filter.valueChanges.pipe(startWith(""));
   }
 
+
   ngOnInit(): void {
-    this.userService.getUsers().subscribe(users => {
-      this.users = users});
+    this.users$ = this.userService.getUsers();
     this.favoriteIds = this.favoriteDataService.getFavorites(FavoriteTypes.User)
-    this.userService.getFavoriteUsers().subscribe(favoriteUsers => this.favoriteUsers = favoriteUsers);
+    this.favoriteUsers$ = this.userService.getFavoriteUsers();
   }
 
   updateFavoriteUser(user: IUser):void {
     this.favoriteIds = this.favoriteDataService.updateFavoriteItems(FavoriteTypes.User, user.id);
-    this.userService.getFavoriteUsers().subscribe(favoriteUsers => this.favoriteUsers = favoriteUsers);
+    this.favoriteUsers$ = this.userService.getFavoriteUsers();
   }
 }

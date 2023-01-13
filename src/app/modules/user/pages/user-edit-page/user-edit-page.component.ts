@@ -25,7 +25,7 @@ export class UserEditPageComponent implements OnInit, OnDestroy, AfterViewInit, 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.editPageForm = this.formBuilder.group({});
+    this.editPageForm = this.formBuilder.group({ });
 
     this.route.data.subscribe(({ user }) => {
           if(user) {

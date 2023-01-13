@@ -1,6 +1,9 @@
 <app-card (toggleItemEvent)="toggleFavorits()" [isFavorite]="isFavorite">
   <div titleData class="header">
-    <p><span class="category-name">Name: </span>{{user.firstName}} <strong>{{user.age}}</strong></p>
+    <p><span class="category-name">Name: </span>
+      {{user.firstName}}
+      {{user.lastName}}
+      <strong>{{user.age}}</strong></p>
     <button mat-icon-button (click)="navigateEditPage(user.id)">
       <mat-icon>create</mat-icon>
     </button>

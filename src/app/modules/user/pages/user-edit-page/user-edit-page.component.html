@@ -2,16 +2,14 @@
     [ngClass]="{invalid: editPageForm.touched && editPageForm.invalid && isClickSubmit}">
     <h3 class="title">Edit user</h3>
 
-    <!-- <ng-container *ngIf="currentUser"> -->
-        <app-user-create-form (initChildForm)="addChildForm($event, 'user')" [isEditEmail]='currentUser!.userEmail'
-            class="create-form"></app-user-create-form>
-    <!-- </ng-container> -->
+    <app-user-create-form (initChildForm)="addChildForm($event, 'user')" [isEditEmail]='currentUser!.userEmail'
+        class="create-form"></app-user-create-form>
+
     <h3 class="title">Edit address</h3>
 
-    <!-- <ng-container *ngIf="currentUser"> -->
-        <app-addresses [addressesAmount]="currentUser!.addresses.length"
-            (initAddresses)="addChildForm($event, 'addresses')" class="address-form"></app-addresses>
-    <!-- </ng-container> -->
+    <app-addresses [addressesAmount]="currentUser!.addresses.length" (initAddresses)="addChildForm($event, 'addresses')"
+        class="address-form"></app-addresses>
+
     <button type="submit" class="submit-btn" mat-flat-button color="accent">Save</button>
 
     <div class="text-invalid" *ngIf="editPageForm.touched && editPageForm.invalid && isClickSubmit">
