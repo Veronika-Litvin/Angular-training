@@ -11,6 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AddressComponent } from './components/address/address.component';
+import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { AddressComponent } from './components/address/address.component';
     FieldErrorsComponent,
     ImageUploadComponent,
     AddressesComponent,
-    AddressComponent
+    AddressComponent,
+    ConfirmationModalComponent
   ],
   imports: [
     CommonModule,
@@ -28,13 +31,15 @@ import { AddressComponent } from './components/address/address.component';
     MatButtonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
   ],
   exports: [
     CardComponent,
     FieldErrorsComponent,
     ImageUploadComponent,
-    AddressesComponent
+    AddressesComponent,
+    ConfirmationModalComponent
   ]
 })
 export class SharedModule { }

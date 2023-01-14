@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { CanDeactivate } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { ConfirmationModalComponent } from '../components/confirmation-modal/confirmation-modal.component';
+import { getDialogConfig } from '../mocks/dialog.config';
+import { map } from 'rxjs/operators';
 
 export interface CanDeactivateComponent {
   canDeactivate(): Observable<boolean> | boolean;
@@ -10,10 +14,17 @@ export interface CanDeactivateComponent {
   providedIn: 'root'
 })
 export class LeavePageGuard implements CanDeactivate<CanDeactivateComponent> {
-  canDeactivate(component: CanDeactivateComponent): boolean {
-     return !component.canDeactivate()
-     ? confirm("You have some unsaved changes and it will be lost. Do you want to leave the page?") 
-     : true;
+  constructor(public dialog: MatDialog) { }
+
+  canDeactivate(component: CanDeactivateComponent): Observable<boolean> {
+    if (component.canDeactivate()) {
+      return of(true);
+    }
+
+    const dialogRef = this.dialog.open(ConfirmationModalComponent, getDialogConfig());
+    return dialogRef.afterClosed().pipe(
+      map(result => result === true)
+    );
   }
-  
+
 }
