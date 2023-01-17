@@ -4,7 +4,8 @@ export interface IFormUser {
     userEmail: string;
     age: number;
     gender: boolean;
-    department: string;
-    company: string;
+    phone: string;
+    department?: string;
+    company?: string;
     imageUrl?: string;
 }

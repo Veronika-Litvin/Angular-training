@@ -1,8 +1,11 @@
 .card-wrapper {
     display: inline-block;
     .card {
+        mat-card-header {
+            width: 100%
+        }
         margin: 10px;
-        width: 240px;
+        width: 280px;
         .img-wrapper {
             min-height: 175px;
         }

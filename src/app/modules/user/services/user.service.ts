@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { catchError, delay, find, map, mergeMap, Observable, of, take } from 'rxjs';
+import { catchError, find, map, mergeMap, Observable, of, take } from 'rxjs';
+import { ServerAnswer } from '../../core/models/http-answer.interface';
+import { ApiService } from '../../core/services/api.service';
 import { Address } from '../../shared/models/addresses.interface';
 import { FavoriteTypes } from '../../shared/models/favorite.enum';
 import { FavoriteDataService } from '../../shared/services/favorite-data.service';
-import { users } from '../mocks/user-list';
 import { IFormUser } from '../models/form-user-data.interface';
 import { IUser } from '../models/user.interface';
 
@@ -12,10 +13,33 @@ import { IUser } from '../models/user.interface';
 })
 export class UserService {
 
-  constructor(private favoriteService: FavoriteDataService) { }
+  constructor(private favoriteService: FavoriteDataService, private apiService: ApiService) { }
 
   getUsers(): Observable<IUser[]> {
-    return of(users).pipe(delay(500));
+    return this.apiService.get<ServerAnswer>()
+    .pipe(
+      map((responce: ServerAnswer) => {
+        return responce.results.map((serverUser) => {
+          return {
+            id: +serverUser.id.value,
+            firstName: serverUser.name.first,
+            lastName: serverUser.name.last,
+            userEmail: serverUser.email,
+            age: serverUser.dob.age,
+            phone: serverUser.phone,
+            gender: serverUser.gender === 'female' ? true : false,
+            imageUrl: serverUser.picture.large,
+            addresses: [
+              {
+              addressLine: serverUser.location.country,
+              city: serverUser.location.city,
+              zip: serverUser.location.postcode
+            }
+          ]
+          } as IUser;
+        })
+      })
+    );
   }
 
   getUserById(id: number): Observable<IUser | undefined> {

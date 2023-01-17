@@ -9,6 +9,7 @@
     display: flex;
     justify-content: space-between;
     line-height: 50px;
+    width: 100%;
     p {
         margin: 0px;
         vertical-align: middle;
@@ -23,4 +24,8 @@
 }
 .category-name {
     color: rgb(205, 6, 255);
+}
+.name {
+    width: 90%;
+    font-size: 16px;
 }

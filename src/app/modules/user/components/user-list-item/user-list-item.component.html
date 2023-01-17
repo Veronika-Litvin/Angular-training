@@ -1,6 +1,6 @@
 <app-card (toggleItemEvent)="toggleFavorits()" [isFavorite]="isFavorite">
   <div titleData class="header">
-    <p><span class="category-name">Name: </span>
+    <p class="name"><span class="category-name">Name </span><br>
       {{user.firstName}}
       {{user.lastName}}
       <strong>{{user.age}}</strong></p>
@@ -13,8 +13,9 @@
   <div additionalData>
     <p><span class="category-name">Email: </span> {{user.userEmail}}</p>
     <p><span class="category-name">Gender: </span> {{user.gender ? 'female' : 'male'}}</p>
-    <p><span class="category-name">Department: </span>{{user.department}}</p>
-    <p><span class="category-name">Company: </span>{{user.company}}</p>
+    <p><span class="category-name">Phone: </span> {{user.phone}}</p>
+    <p *ngIf="user.department"><span class="category-name">Department: </span>{{user.department}}</p>
+    <p *ngIf="user.company"><span class="category-name">Company: </span>{{user.company}}</p>
     <ng-container *ngFor="let address of user.addresses; let i = index">
       <div>
         <p class="category-name">Address:</p>

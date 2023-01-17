@@ -27,6 +27,7 @@ export class UserCreateFormComponent implements OnInit {
       validators: [Validators.required, Validators.email, gmailFormatValidator],
       asyncValidators: [this.checkRepeatingEmailValidator]
     }],
+    phone: ['', Validators.required],
     company: ['', [Validators.required, Validators.maxLength(35)]],
     department: ['', [Validators.required, Validators.minLength(6)]],
     gender: [null, Validators.required],
