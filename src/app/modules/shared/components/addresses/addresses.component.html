@@ -3,11 +3,13 @@
         <div *ngFor="let address of addresses.controls; let i = index" class="address">
             <app-address [address]="address" class="create-form"></app-address>
             <ng-container *ngIf="addresses.controls.length > 1">
-                <button class="remove-btn" mat-stroked-button color="accent" (click)="removeAddress(i, $event)">Remove</button>
+                <button class="remove-btn" mat-stroked-button color="accent"
+                    (click)="removeAddress(i, $event)">Remove</button>
             </ng-container>
         </div>
     </ng-container>
     <div class="form-element">
-        <button mat-stroked-button color="accent" class="add-btn" (click)="$event.preventDefault(); addAddress(1)">Add address</button>
+        <button mat-stroked-button color="accent" class="add-btn" (click)="$event.preventDefault(); addAddress()">Add
+            address</button>
     </div>
 </div>

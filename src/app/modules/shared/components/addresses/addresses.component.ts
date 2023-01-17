@@ -1,28 +1,25 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-addresses',
   templateUrl: './addresses.component.html',
   styleUrls: ['./addresses.component.scss'],
 })
-export class AddressesComponent implements OnInit, OnDestroy {
+export class AddressesComponent implements OnInit {
 
   @Output() initAddresses = new EventEmitter<FormArray>();
 
-  @Input() addressesAmount!: number;
+  @Input() initialArray!: FormArray;
 
-  subscriptions: Subscription[] = [];
+  addressesForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) { }
 
-  addressesForm = this.formBuilder.group({
-    addresses: this.formBuilder.array([])
-  });
-
   ngOnInit(): void {
-    this.addAddress(this.addressesAmount);
+    this.addressesForm = this.formBuilder.group({
+      addresses: this.initialArray || this.formBuilder.array([this.formBuilder.group({})]),
+    });
     this.initAddresses.emit(this.addresses);
   }
 
@@ -30,34 +27,12 @@ export class AddressesComponent implements OnInit, OnDestroy {
     return this.addressesForm.controls["addresses"] as FormArray;
   }
 
-  addAddress(addressesAmount: number) {
-    for(let i = 0; i < addressesAmount; i++) {
-
-    const addressForm = this.formBuilder.group({
-      addressLine: ['', [Validators.required, Validators.minLength(4)]],
-      city: [''],
-      zip: [{ value: null, disabled: true }, Validators.required],
-    });
-
-    const addressFormSubscription = addressForm.get('city')!.valueChanges.subscribe(value => {
-      if (value) {
-        addressForm.get('zip')!.enable();
-        addressForm.get('zip')!.setErrors({ 'customRequired': true });
-      } else {
-        addressForm.get('zip')!.disable();
-      }
-    });
-      this.subscriptions.push(addressFormSubscription);
-      this.addresses.push(addressForm);
-    }
+  addAddress(): void {
+    this.addresses.push(this.formBuilder.group({}));
   }
 
-  removeAddress(i: number, e: Event) {
+  removeAddress(i: number, e: Event): void {
     e.preventDefault();
     this.addresses.removeAt(i);
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }
