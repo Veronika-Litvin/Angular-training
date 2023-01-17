@@ -6,7 +6,7 @@
 
     <h3 class="title">Add address</h3>
 
-    <app-addresses [addressesAmount]="1" (initAddresses)="addChildForm($event, 'addresses')" class="address-form"></app-addresses>
+    <app-addresses (initAddresses)="addChildForm($event, 'addresses')" class="address-form"></app-addresses>
 
     <button type="submit" class="submit-btn" mat-flat-button color="accent">Save</button>
 

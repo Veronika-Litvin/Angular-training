@@ -1,8 +1,11 @@
-<input matInput type="text" [formControl]="filter" class="search-input" placeholder="Find user">
+<app-search (searchValueChange)="searchUsers($event)"></app-search>
+
 <div class="users-page-wrapper">
-    <app-user-list [search]="filter$" [users]="users$" [favoriteIds]="favoriteIds" (updateFavoriteEvent)="updateFavoriteUser($event)"></app-user-list>
-<div class="favorits-wrapper">
-    <h2>My favorits users</h2>
-    <app-user-list [users]="favoriteUsers$" [favoriteIds]="favoriteIds" (updateFavoriteEvent)="updateFavoriteUser($event)"></app-user-list>
-</div>
+    <app-user-list [users]="users" [favoriteIds]="favoriteIds"
+        (updateFavoriteEvent)="updateFavoriteUser($event)"></app-user-list>
+    <div class="favorits-wrapper">
+        <h2>My favorits users</h2>
+        <app-user-list [users]="favoriteUsers" [favoriteIds]="favoriteIds"
+            (updateFavoriteEvent)="updateFavoriteUser($event)"></app-user-list>
+    </div>
 </div>

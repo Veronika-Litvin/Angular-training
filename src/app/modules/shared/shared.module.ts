@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AddressComponent } from './components/address/address.component';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     ImageUploadComponent,
     AddressesComponent,
     AddressComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    SearchComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +41,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     FieldErrorsComponent,
     ImageUploadComponent,
     AddressesComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    SearchComponent
   ]
 })
 export class SharedModule { }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, find, map, mergeMap, Observable } from 'rxjs';
+import { catchError, delay, find, map, mergeMap, Observable, of, take } from 'rxjs';
 import { Address } from '../../shared/models/addresses.interface';
 import { FavoriteTypes } from '../../shared/models/favorite.enum';
 import { FavoriteDataService } from '../../shared/services/favorite-data.service';
@@ -12,13 +12,10 @@ import { IUser } from '../models/user.interface';
 })
 export class UserService {
 
-  users!: BehaviorSubject<IUser[]>;
-
   constructor(private favoriteService: FavoriteDataService) { }
 
   getUsers(): Observable<IUser[]> {
-    this.users = new BehaviorSubject(users);
-    return this.users.asObservable();
+    return of(users).pipe(delay(500));
   }
 
   getUserById(id: number): Observable<IUser | undefined> {
@@ -40,29 +37,55 @@ export class UserService {
       )
   }
 
-  createUser(newFormUser: IFormUser, addresses: Address[]): void {
-    users.push({
-      id: users.length + 1,
-      ...newFormUser,
-      addresses
-    });
+  getFilteringUsers(param: string): Observable<IUser[]> {
+    return this.getUsers()
+      .pipe(
+        map(users => users.filter(user => {
+          const fullName = `${user.firstName.toLowerCase()} ${user.lastName.toLowerCase()}`;
+
+          if (fullName.includes(param.toLowerCase())) {
+            return user;
+          }
+          return;
+        })),
+      )
   }
 
-  updateUser(userId: number, newFormUser: IUser, addresses: Address[]): void {
-    this.getUsers()
-      .pipe(
-        map(users => {
-          const editableUser = users.find(user => user.id === userId);
-          editableUser!.id = userId;
-          editableUser!.firstName = newFormUser.firstName;
-          editableUser!.lastName = newFormUser.lastName;
-          editableUser!.age = newFormUser.age;
-          editableUser!.company = newFormUser.company;
-          editableUser!.department = newFormUser.department;
-          editableUser!.userEmail = newFormUser.userEmail;
-          editableUser!.addresses = addresses;
-          return users;
-        })
-      ).subscribe(users => this.users.next(users))
+  createUser(newFormUser: IFormUser, addresses: Address[]): Observable<boolean> {
+    return this.getUsers().pipe(
+      take(1),
+      map((users) => {
+        users.push({
+          id: users.length + 1,
+          ...newFormUser,
+          addresses
+        });
+        return true;
+      }),
+      catchError((err) => {
+        console.log(err);
+        return of(false)
+      })
+    );
+  }
+
+  updateUser(userId: number, newFormUser: IFormUser, addresses: Address[]): Observable<boolean> {
+    return this.getUsers().pipe(
+      take(1),
+      map((users) => {
+        const currentUser = users.findIndex((user) => user.id === userId);
+        users.splice(currentUser, 1, {
+          id: userId,
+          ...newFormUser,
+          addresses
+        });
+        return true;
+
+      }),
+      catchError((err) => {
+        console.log(err);
+        return of(false)
+      })
+    );
   }
 }

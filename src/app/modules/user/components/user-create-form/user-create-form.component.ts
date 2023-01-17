@@ -12,32 +12,31 @@ import { CheckRepeatingEmailValidator } from '../../../shared/services/check-rep
 export class UserCreateFormComponent implements OnInit {
   @Output() initChildForm = new EventEmitter<FormGroup>();
 
-  @Input() isEditEmail!: string;
-
-  creationUserForm!: FormGroup;
+  @Input() set editEmail(currentEmail: string) {
+    this.creationUserForm.get('userEmail')!.setAsyncValidators(this.checkRepeatingEmailValidator.validateEditedEmail(currentEmail));
+    this.creationUserForm.get('userEmail')!.updateValueAndValidity();
+  }
 
   constructor(private formBuilder: FormBuilder, private checkRepeatingEmailValidator: CheckRepeatingEmailValidator) { }
 
+  creationUserForm: FormGroup = this.formBuilder.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    age: [null, [Validators.required, Validators.min(15), Validators.max(100)]],
+    userEmail: ['', {
+      validators: [Validators.required, Validators.email, gmailFormatValidator],
+      asyncValidators: [this.checkRepeatingEmailValidator]
+    }],
+    company: ['', [Validators.required, Validators.maxLength(35)]],
+    department: ['', [Validators.required, Validators.minLength(6)]],
+    gender: [null, Validators.required],
+    imageUrl: [null]
+  })
+
   ngOnInit(): void {
-    this.createForm();
     this.initChildForm.emit(this.creationUserForm);
   }
 
-  private createForm(): void {
-    this.creationUserForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      age: [null, [Validators.required, Validators.min(15), Validators.max(100)]],
-      userEmail: ['', {
-        validators: [Validators.required, Validators.email, gmailFormatValidator],
-        asyncValidators: [this.checkRepeatingEmailValidator.validate(this.isEditEmail)]
-      }],
-      company: ['', [Validators.required, Validators.maxLength(35)]],
-      department: ['', [Validators.required, Validators.minLength(6)]],
-      gender: [null, Validators.required],
-      imageUrl: [null]
-    })
-  }
 
   get creationUserFormControl(): { [key: string]: AbstractControl } {
     return this.creationUserForm.controls;

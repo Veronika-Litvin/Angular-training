@@ -28,9 +28,14 @@ export class UserCreationPageComponent implements OnInit {
     this.isClickSubmit = true;
     this.userPageForm.markAllAsTouched();
     if (this.userPageForm.valid) {
-      this.userService.createUser(this.userPageForm.value.user, this.userPageForm.value.addresses);
-      this.router.navigate(['user']);
-      this.isClickSubmit = false;
+      this.userService.createUser(this.userPageForm.value.user, this.userPageForm.value.addresses).subscribe((isSuccessfully) => {
+        if (isSuccessfully) {
+          this.router.navigate(['user']);
+          this.isClickSubmit = false;
+      } else {
+          console.log('error')
+      }
+      });
     }
   }
 }

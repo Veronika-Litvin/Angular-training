@@ -16,15 +16,20 @@ export class CheckRepeatingEmailValidator {
     );
   }
 
-  validate(email: string): AsyncValidatorFn {
+  validateEditedEmail(currentEmail: string): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      if (email === control.value) {
+      if (control.value === currentEmail) {
         return of(null)
+      } else {
+        return this.validate(control)
       }
-      return this.emailExists(control.value).pipe(
-        map((exists) => (exists ? { emailExists: true } : null)),
-        catchError(() => of(null))
-      );
-    };
+    }
+  }
+
+  validate(control: AbstractControl): Observable<ValidationErrors | null> {
+    return this.emailExists(control.value).pipe(
+      map((exists) => (exists ? { emailExists: true } : null)),
+      catchError(() => of(null))
+    );
   }
 }

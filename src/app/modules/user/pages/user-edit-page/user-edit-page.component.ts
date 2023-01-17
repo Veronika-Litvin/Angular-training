@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { merge, Subscription } from 'rxjs';
+import { merge, Subscription, take } from 'rxjs';
 import { CanDeactivateComponent } from 'src/app/modules/shared/guards/leave-page.guard';
 import { IUser } from '../../models/user.interface';
 import { UserService } from '../../services/user.service';
@@ -11,36 +11,49 @@ import { UserService } from '../../services/user.service';
   templateUrl: './user-edit-page.component.html',
   styleUrls: ['./user-edit-page.component.scss']
 })
-export class UserEditPageComponent implements OnInit, OnDestroy, AfterViewInit, CanDeactivateComponent {
+export class UserEditPageComponent implements OnInit, OnDestroy, CanDeactivateComponent {
   editPageForm!: FormGroup;
 
   isClickSubmit = false;
 
-  currentUser: IUser | null = null;
+  currentUser: IUser | null | undefined = null;
 
   subscriptions: Subscription[] = [];
+
+  id!: number;
+
+  email!: string;
 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.editPageForm = this.formBuilder.group({});
-
-    this.route.data.subscribe(({ user }) => {
-      if (user) {
-        this.currentUser = user;
-      }
-    })
-  }
-
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.editPageForm.get('user')!.patchValue(this.currentUser);
-      if (this.addresses) {
-        this.addresses.patchValue(this.currentUser!.addresses);
-      }
-      this.checkValueChanges();
+    this.editPageForm = this.formBuilder.group({
+      addresses: this.formBuilder.array([])
     });
 
+    const routeSubscription = this.route.params.subscribe((params) => {
+      this.id = +params['id'];
+
+      this.userService
+        .getUserById(this.id)
+        .pipe(take(1))
+        .subscribe((value) => {
+          this.currentUser = value;
+          this.email = value!.userEmail;
+
+          for (const address of this.currentUser!.addresses) {
+            this.addresses.push(this.formBuilder.group({}));
+          }
+
+          setTimeout(() => {
+            this.editPageForm.get('user')!.patchValue(this.currentUser);
+            this.addresses.patchValue(this.currentUser!.addresses);
+            this.checkValueChanges();
+          }, 0);
+
+        });
+    });
+    this.subscriptions.push(routeSubscription);
   }
 
   ngOnDestroy(): void {
@@ -77,9 +90,14 @@ export class UserEditPageComponent implements OnInit, OnDestroy, AfterViewInit, 
   editUser(): void {
     this.isClickSubmit = true;
     this.editPageForm.markAllAsTouched();
-    if (this.editPageForm.valid || this.editPageForm.pending) {
-      this.userService.updateUser(this.currentUser!.id, this.editPageForm.value.user, this.editPageForm.value.addresses);
-      this.router.navigate(['user']);
+    if (this.editPageForm.valid || this.editPageForm.pristine) {
+      this.userService.updateUser(this.currentUser!.id, this.editPageForm.value.user, this.editPageForm.value.addresses).subscribe((isSuccessfully) => {
+        if (isSuccessfully) {
+          this.router.navigate(['user']);
+      } else {
+          console.log('error')
+      }
+      });
     }
   }
 
