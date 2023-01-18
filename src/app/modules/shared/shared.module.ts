@@ -14,6 +14,7 @@ import { AddressComponent } from './components/address/address.component';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SearchComponent } from './components/search/search.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { SearchComponent } from './components/search/search.component';
     ReactiveFormsModule,
     MatFormFieldModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    HttpClientModule
   ],
   exports: [
     CardComponent,
@@ -42,7 +44,8 @@ import { SearchComponent } from './components/search/search.component';
     ImageUploadComponent,
     AddressesComponent,
     ConfirmationModalComponent,
-    SearchComponent
+    SearchComponent,
+    HttpClientModule
   ]
 })
 export class SharedModule { }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { catchError, find, map, mergeMap, Observable, of, take } from 'rxjs';
-import { ServerAnswer } from '../../core/models/http-answer.interface';
+import { catchError, map, Observable, of, take } from 'rxjs';
+import { ServerResponce } from '../../core/models/http-responce.interface';
 import { ApiService } from '../../core/services/api.service';
 import { Address } from '../../shared/models/addresses.interface';
 import { FavoriteTypes } from '../../shared/models/favorite.enum';
@@ -16,12 +16,12 @@ export class UserService {
   constructor(private favoriteService: FavoriteDataService, private apiService: ApiService) { }
 
   getUsers(): Observable<IUser[]> {
-    return this.apiService.get<ServerAnswer>()
+    return this.apiService.get<ServerResponce>()
     .pipe(
-      map((responce: ServerAnswer) => {
+      map((responce: ServerResponce) => {
         return responce.results.map((serverUser) => {
           return {
-            id: +serverUser.id.value,
+            id: serverUser.id.value,
             firstName: serverUser.name.first,
             lastName: serverUser.name.last,
             userEmail: serverUser.email,
@@ -43,11 +43,7 @@ export class UserService {
   }
 
   getUserById(id: number): Observable<IUser | undefined> {
-    return this.getUsers()
-      .pipe(
-        mergeMap(users => users),
-        find(user => user.id === id)
-      )
+    return this.apiService.getById<IUser>(id)
   }
 
   getFavoriteUsers(): Observable<IUser[]> {
@@ -56,23 +52,19 @@ export class UserService {
     return this.getUsers()
       .pipe(
         map((users) => {
-          return users.filter(user => favoriteIds.includes(user.id));
+          return users.filter(user => favoriteIds.includes(+user.id));
         })
       )
   }
 
-  getFilteringUsers(param: string): Observable<IUser[]> {
-    return this.getUsers()
-      .pipe(
-        map(users => users.filter(user => {
-          const fullName = `${user.firstName.toLowerCase()} ${user.lastName.toLowerCase()}`;
-
-          if (fullName.includes(param.toLowerCase())) {
-            return user;
-          }
-          return;
-        })),
-      )
+  getFilteringUsers(param: string, users: IUser[]): Observable<IUser[]> {
+    return of(users.filter(user => {
+      const fullName = `${user.firstName.toLowerCase()} ${user.lastName.toLowerCase()}`;
+      if (fullName.includes(param.toLowerCase())) {
+        return user;
+      }
+      return;
+    }))
   }
 
   createUser(newFormUser: IFormUser, addresses: Address[]): Observable<boolean> {
@@ -80,7 +72,7 @@ export class UserService {
       take(1),
       map((users) => {
         users.push({
-          id: users.length + 1,
+          id: (users.length + 1).toString(),
           ...newFormUser,
           addresses
         });
@@ -94,22 +86,23 @@ export class UserService {
   }
 
   updateUser(userId: number, newFormUser: IFormUser, addresses: Address[]): Observable<boolean> {
-    return this.getUsers().pipe(
-      take(1),
-      map((users) => {
-        const currentUser = users.findIndex((user) => user.id === userId);
-        users.splice(currentUser, 1, {
-          id: userId,
-          ...newFormUser,
-          addresses
-        });
-        return true;
+    return of(true);
+    // return this.getUsers().pipe(
+    //   take(1),
+    //   // map((users) => {
+    //   //   const currentUser = users.findIndex((user) => user.id === userId);
+    //   //   users.splice(currentUser, 1, {
+    //   //     id: userId,
+    //   //     ...newFormUser,
+    //   //     addresses
+    //   //   });
+    //   //   return true;
 
-      }),
-      catchError((err) => {
-        console.log(err);
-        return of(false)
-      })
-    );
+    //   // }),
+    //   catchError((err) => {
+    //     console.log(err);
+    //     return of(false)
+    //   })
+    // );
   }
 }

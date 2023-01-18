@@ -1,4 +1,4 @@
-export interface ServerAnswer {
+export interface ServerResponce {
     results: ServerUser[],
     info: ServerInfo
   }

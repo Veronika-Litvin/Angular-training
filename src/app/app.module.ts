@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { UserModule } from './modules/user/user.module';
 import { CarModule } from './modules/car/car.module';
 import { CoreModule } from './modules/core/core.module';
-import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,8 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     UserModule,
     CarModule,
-    CoreModule,
-    HttpClientModule
+    CoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

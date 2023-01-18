@@ -17,7 +17,7 @@ export class UserListComponent {
   }
 
   isFavorite(user: IUser): boolean {
-    return this.favoriteIds.includes(user.id);
+    return this.favoriteIds.includes(+user.id);
   }
 }
 

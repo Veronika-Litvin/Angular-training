@@ -1,7 +1,7 @@
 import { Address } from "../../shared/models/addresses.interface";
 
 export interface IUser {
-    id: number;
+    id: string;
     firstName: string;
     lastName: string;
     userEmail: string;

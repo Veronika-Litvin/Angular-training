@@ -23,7 +23,8 @@ export class UserListItemComponent {
     this.favoriteChangedEvent.emit();
   }
 
-  navigateEditPage(id: number): void {
+  navigateEditPage(id: string): void {
+    console.log('----', id)
     this.router.navigate(['/edit-user', id])
   }
 }
