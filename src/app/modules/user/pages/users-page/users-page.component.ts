@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 import { FavoriteTypes } from 'src/app/modules/shared/models/favorite.enum';
 import { FavoriteDataService } from 'src/app/modules/shared/services/favorite-data.service';
 import { IUser } from '../../models/user.interface';
-import { UserService } from '../../services/user.service';
+import { UserApiService } from '../../services/user-api.service';
 
 @Component({
   selector: 'app-users-page',
@@ -12,34 +12,30 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./users-page.component.scss']
 })
 export class UsersPageComponent implements OnInit, OnDestroy {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   users!: IUser[];
-  
+
   favoriteUsers!: IUser[];
 
   favoriteIds: number[] = [];
 
   page = 1;
 
-  pageSize= 10;
+  pageSize = 10;
 
   subscription: Subscription = new Subscription;
 
-  activePageDataChunk: IUser[] = [];
+  length = 1000;
+
+  searchValue = '';
 
   searchedUsers: IUser[] = [];
 
-  length = 200;
-
-  isSearch = false;
-
-  constructor(private userService: UserService, private favoriteDataService: FavoriteDataService) {}
+  constructor(private userApiService: UserApiService, private favoriteDataService: FavoriteDataService) { }
 
 
   ngOnInit(): void {
-    this.subscription.add(this.userService.getUsers().subscribe(users => {
-      this.users = users;
-      this.length = users.length;
-      this.activePageDataChunk = this.users.slice(0,this.pageSize)}));
+    this.getUsers();
     // this.favoriteIds = this.favoriteDataService.getFavorites(FavoriteTypes.User);
     // this.subscription.add(this.userService.getFavoriteUsers().subscribe(favorits => this.favoriteUsers = favorits));
   }
@@ -54,27 +50,48 @@ export class UsersPageComponent implements OnInit, OnDestroy {
   }
 
   searchUsers(param: string): void {
-    this.subscription.add(this.userService.getFilteringUsers(param, this.users)
-      .subscribe(users => {
-        if(param.length === 0) {
-          this.isSearch = false;
-        }else {
-          this.searchedUsers = users;
-          this.isSearch = true;
-        }
 
+    if ((this.searchValue.length > 0 && param.length === 0) || (this.searchValue.length === 0 && param.length > 0)) {
+      this.paginator.pageIndex = 0;
+    }
+
+    if (param.length === 0) {
+      this.subscription.add(this.userApiService.getUsers()
+        .subscribe(users => {
+          this.users = users;
+          this.searchValue = param;
+        }));
+    } else {
+      this.subscription.add(this.userApiService.getUsersByTag(param)
+        .subscribe(users => {
+          this.searchedUsers = users;
+          this.searchValue = param;
+        }));
+    }
+
+  }
+
+  paginate(e: PageEvent): void {
+    this.page = e.pageIndex + 1;
+    this.pageSize = e.pageSize;
+    if (this.searchValue.length > 0) {
+      this.getUsersByTag(this.searchValue, this.page, this.pageSize);
+    } else {
+      this.getUsers(this.page, this.pageSize);
+    }
+  }
+
+  getUsers(page?: number, pageSize?: number): void {
+    this.subscription.add(this.userApiService.getUsers(page, pageSize)
+      .subscribe(users => {
+        this.users = users;
       }));
   }
 
-  public handlePage(e: PageEvent) {
-    this.page = e.pageIndex;
-    this.pageSize = e.pageSize;
-    this.iterator();
-  }
-
-  private iterator() {
-    const end = (this.page + 1) * this.pageSize;
-    const start = (this.page) * this.pageSize;
-    this.activePageDataChunk = this.users.slice(start, end);
+  getUsersByTag(search: string, page?: number, pageSize?: number): void {
+    this.subscription.add(this.userApiService.getUsersByTag(search, page, pageSize)
+      .subscribe(users => {
+        this.searchedUsers = users;
+      }))
   }
 }

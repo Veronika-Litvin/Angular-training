@@ -1,15 +1,15 @@
 import { Injectable } from "@angular/core";
 import { AbstractControl, AsyncValidatorFn, ValidationErrors } from "@angular/forms";
 import { catchError, map, Observable, of } from "rxjs";
-import { UserService } from "../../user/services/user.service";
+import { UserApiService } from "../../user/services/user-api.service";
 
 @Injectable({ providedIn: 'root' })
 
 export class CheckRepeatingEmailValidator {
-  constructor(private userService: UserService) { }
+  constructor(private userApiService: UserApiService) { }
 
   emailExists(email: string): Observable<boolean> {
-    return this.userService.getUsers().pipe(
+    return this.userApiService.getUsers().pipe(
       map(users => {
         return users.map(user => user.userEmail).includes(email)
       })

@@ -1,31 +1,31 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, retry, throwError } from 'rxjs';
-import { IUser } from '../../user/models/user.interface';
-import { enviroment } from '../../../../enviroments/enviroment'
+import { enviroment } from '../../../../enviroments/enviroment';
+import { HttpOtions } from '../models/http-params.interface';
+import { getFullUrl } from '../utils/handle-year';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-    }),
-  };
-
   constructor(private http: HttpClient) { }
 
-  get<T>(): Observable<T> {
+  get<T>(url: string, options: HttpOtions): Observable<any> {
+    const fullUrl = getFullUrl(url);
+
+    const httpOptions = this.createOptions(options);
+
     return this.http
-      .get<T>(`${enviroment.apiURL}?results=200&seed=abc`)
+      .get<T>(fullUrl, httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError));
   }
 
-  getById<T>(id: number): Observable<T> {
+  getById<T>(id: number): Observable<any> {
     return this.http
       .get<T>(`${enviroment.apiURL}/${id}`)
       .pipe(
@@ -33,18 +33,27 @@ export class ApiService {
         catchError(this.handleError));
   }
 
-  post(user: IUser): Observable<IUser> {
-    return this.http.post<IUser>(enviroment.apiURL, user, this.httpOptions)
-    .pipe(
-      retry(1),
-      catchError(this.handleError));
+  post<T>(data: T): Observable<any> {
+    return this.http.post<T>(enviroment.apiURL, data)
+      .pipe(
+        retry(1),
+        catchError(this.handleError));
   }
 
-  update(id: number, user: IUser): Observable<IUser> {
-    return this.http.put<IUser>(`${enviroment.apiURL}?id=${id}`, user, this.httpOptions)
-    .pipe(
-      retry(1),
-      catchError(this.handleError));
+  update<T>(id: string, data: T): Observable<any> {
+    return this.http.put<T>(`${enviroment.apiURL}?id=${id}`, data)
+      .pipe(
+        retry(1),
+        catchError(this.handleError));
+  }
+
+  createOptions(options: HttpOtions) {
+    return {
+      headers: options.headers,
+      params: options.params,
+      responseType: 'json' as const,
+      observe: 'response' as const,
+    };
   }
 
   handleError(error: HttpErrorResponse): Observable<never> {

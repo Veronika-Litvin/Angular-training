@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { merge, Subscription, take } from 'rxjs';
 import { CanDeactivateComponent } from 'src/app/modules/shared/guards/leave-page.guard';
 import { IUser } from '../../models/user.interface';
-import { UserService } from '../../services/user.service';
+import { UserApiService } from '../../services/user-api.service';
 
 @Component({
   selector: 'app-user-edit-page',
@@ -24,7 +24,7 @@ export class UserEditPageComponent implements OnInit, OnDestroy, CanDeactivateCo
 
   email!: string;
 
-  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) { }
+  constructor(private userApiService: UserApiService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.editPageForm = this.formBuilder.group({
@@ -34,7 +34,7 @@ export class UserEditPageComponent implements OnInit, OnDestroy, CanDeactivateCo
     const routeSubscription = this.route.params.subscribe((params) => {
       this.id = +params['id'];
 
-      this.userService
+      this.userApiService
         .getUserById(this.id)
         .pipe(take(1))
         .subscribe((value) => {
@@ -91,12 +91,12 @@ export class UserEditPageComponent implements OnInit, OnDestroy, CanDeactivateCo
     this.isClickSubmit = true;
     this.editPageForm.markAllAsTouched();
     if (this.editPageForm.valid || this.editPageForm.pristine) {
-      this.userService.updateUser(+this.currentUser!.id, this.editPageForm.value.user, this.editPageForm.value.addresses).subscribe((isSuccessfully) => {
+      this.userApiService.updateUser(this.currentUser!.id, this.editPageForm.value.user, this.editPageForm.value.addresses).subscribe((isSuccessfully) => {
         if (isSuccessfully) {
           this.router.navigate(['user']);
-      } else {
+        } else {
           console.log('error')
-      }
+        }
       });
     }
   }

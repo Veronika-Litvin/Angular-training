@@ -1,13 +1,13 @@
 <app-search (searchValueChange)="searchUsers($event)"></app-search>
 
 <div class="users-page-wrapper">
-    <app-user-list [users]="isSearch ? searchedUsers : activePageDataChunk" [favoriteIds]="favoriteIds"
+    <app-user-list [users]="searchValue.length > 0 ? searchedUsers : users" [favoriteIds]="favoriteIds"
         (updateFavoriteEvent)="updateFavoriteUser($event)"></app-user-list>
-    <div class="favorits-wrapper">
+    <!-- <div class="favorits-wrapper">
         <h2>My favorits users</h2>
         <app-user-list [users]="favoriteUsers" [favoriteIds]="favoriteIds"
             (updateFavoriteEvent)="updateFavoriteUser($event)"></app-user-list>
-    </div>
+    </div> -->
 </div>
-<mat-paginator *ngIf="length > 10 && !isSearch" [pageSize]="pageSize" [length]="length" [pageSizeOptions]="[5, 10, 25, 100]" (page)=" handlePage($event)" aria-label="Select page">
+<mat-paginator *ngIf="length > 10" [pageSize]="pageSize" [length]="length" [pageSizeOptions]="[5, 10, 25, 100]" (page)="paginate($event)" #paginator aria-label="Select page">
 </mat-paginator>
