@@ -15,7 +15,7 @@ export class UserService {
   getFavoriteUsers(): Observable<IUser[]> {
     const favoriteIds = this.favoriteService.getFavorites(FavoriteTypes.User);
 
-    return this.userApiService.getUsers()
+    return this.userApiService.getUsers({page: 1, results: 10, tag: 'favorites'})
       .pipe(
         map((users) => {
           return users.filter(user => favoriteIds.includes(+user.id));

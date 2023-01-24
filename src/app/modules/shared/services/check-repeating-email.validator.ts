@@ -9,11 +9,12 @@ export class CheckRepeatingEmailValidator {
   constructor(private userApiService: UserApiService) { }
 
   emailExists(email: string): Observable<boolean> {
-    return this.userApiService.getUsers().pipe(
-      map(users => {
-        return users.map(user => user.userEmail).includes(email)
-      })
-    );
+    // return this.userApiService.getUsers().pipe(
+    //   map(users => {
+    //     return users.map(user => user.userEmail).includes(email)
+    //   })
+    // );
+    return of(true)
   }
 
   validateEditedEmail(currentEmail: string): AsyncValidatorFn {

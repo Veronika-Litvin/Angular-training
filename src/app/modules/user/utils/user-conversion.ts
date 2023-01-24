@@ -1,7 +1,7 @@
 import { ServerResponse } from "../../core/models/http-response.interface";
 import { IUser } from "../models/user.interface";
 
-export function convertToUserList(data: ServerResponse) {
+export function convertToUserList(data: ServerResponse): IUser[] {
   return data.results.map((serverUser) => {
     return {
       id: serverUser.id.value,

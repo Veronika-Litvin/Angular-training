@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { merge, Subscription, take } from 'rxjs';
+import { merge, Subscription } from 'rxjs';
 import { CanDeactivateComponent } from 'src/app/modules/shared/guards/leave-page.guard';
 import { IUser } from '../../models/user.interface';
 import { UserApiService } from '../../services/user-api.service';
@@ -31,29 +31,29 @@ export class UserEditPageComponent implements OnInit, OnDestroy, CanDeactivateCo
       addresses: this.formBuilder.array([])
     });
 
-    const routeSubscription = this.route.params.subscribe((params) => {
-      this.id = +params['id'];
+    // const routeSubscription = this.route.params.subscribe((params) => {
+    //   this.id = +params['id'];
 
-      this.userApiService
-        .getUserById(this.id)
-        .pipe(take(1))
-        .subscribe((value) => {
-          console.log(value)
-          this.currentUser = value;
-          this.email = value!.userEmail;
-          for (const address of this.currentUser!.addresses) {
-            this.addresses.push(this.formBuilder.group({}));
-          }
+    //   this.userApiService
+    //     .getUserById(this.id)
+    //     .pipe(take(1))
+    //     .subscribe((value) => {
+    //       console.log(value)
+    //       this.currentUser = value;
+    //       this.email = value!.userEmail;
+    //       for (const address of this.currentUser!.addresses) {
+    //         this.addresses.push(this.formBuilder.group({}));
+    //       }
 
-          setTimeout(() => {
-            this.editPageForm.get('user')!.patchValue(this.currentUser);
-            this.addresses.patchValue(this.currentUser!.addresses);
-            this.checkValueChanges();
-          }, 0);
+    //       setTimeout(() => {
+    //         this.editPageForm.get('user')!.patchValue(this.currentUser);
+    //         this.addresses.patchValue(this.currentUser!.addresses);
+    //         this.checkValueChanges();
+    //       }, 0);
 
-        });
-    });
-    this.subscriptions.push(routeSubscription);
+    //     });
+    // });
+    // this.subscriptions.push(routeSubscription);
   }
 
   ngOnDestroy(): void {

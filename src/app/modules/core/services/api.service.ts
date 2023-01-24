@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, retry, throwError } from 'rxjs';
 import { enviroment } from '../../../../enviroments/enviroment';
 import { HttpOtions } from '../models/http-params.interface';
-import { getFullUrl } from '../utils/handle-year';
+import { getFullUrl } from '../utils/handle-url';
 
 @Injectable({
   providedIn: 'root'
@@ -25,14 +25,6 @@ export class ApiService {
         catchError(this.handleError));
   }
 
-  getById<T>(id: number): Observable<any> {
-    return this.http
-      .get<T>(`${enviroment.apiURL}/${id}`)
-      .pipe(
-        retry(1),
-        catchError(this.handleError));
-  }
-
   post<T>(data: T): Observable<any> {
     return this.http.post<T>(enviroment.apiURL, data)
       .pipe(
@@ -40,8 +32,8 @@ export class ApiService {
         catchError(this.handleError));
   }
 
-  update<T>(id: string, data: T): Observable<any> {
-    return this.http.put<T>(`${enviroment.apiURL}?id=${id}`, data)
+  update<T>(data: T): Observable<any> {
+    return this.http.put<T>(enviroment.apiURL, data)
       .pipe(
         retry(1),
         catchError(this.handleError));
