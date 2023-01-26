@@ -70,7 +70,7 @@ export class UserApiService {
   getUserById(id: string): Observable<string> {
     return this.apiService.get<ServerResponse>('', { params: { id: id } }).pipe(
       map(() => {
-        return `Excel from user with ID '${id}'`
+        return id
       }),
       delay(randomDelay(id, 10000, 20000))
     )

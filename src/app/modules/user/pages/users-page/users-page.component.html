@@ -7,7 +7,7 @@
 </button>
 
 <div class="users-page-wrapper">
-    <app-user-list [users]="users" [favoriteIds]="favoriteIds" (saveUserEvent)="saveUser($event)" (saveInOrderUserEvent)="saveInOrderUser($event)"></app-user-list>
+    <app-user-list [users]="users" [favoriteIds]="favoriteIds" (saveUserEvent)="downloadUser($event)" (saveInOrderUserEvent)="downloadInOrderUser($event)"></app-user-list>
     <!-- <div class="favorits-wrapper">
         <h2>My favorits users</h2>
         <app-user-list [users]="favoriteUsers" [favoriteIds]="favoriteIds"

@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { concatMap, exhaustMap, mergeMap, Subject, switchMap } from 'rxjs';
+import { concatMap, exhaustMap, mergeMap, Subject, switchMap, takeUntil } from 'rxjs';
 import { FavoriteDataService } from 'src/app/modules/shared/services/favorite-data.service';
 import { enviroment } from 'src/enviroments/enviroment';
 import { pageSizeOptions } from '../../consts/paginatorValues';
@@ -12,7 +12,7 @@ import { UserApiService } from '../../services/user-api.service';
   templateUrl: './users-page.component.html',
   styleUrls: ['./users-page.component.scss']
 })
-export class UsersPageComponent implements OnInit {
+export class UsersPageComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   users!: IUser[];
 
@@ -42,6 +42,8 @@ export class UsersPageComponent implements OnInit {
   multiResponsedUsers = new Subject<void>();
   multiResponsedUsers$ = this.multiResponsedUsers.asObservable();
 
+  destroySubsciption = new Subject<boolean>();
+
   constructor(private userApiService: UserApiService, private favoriteDataService: FavoriteDataService) {
     this.length = enviroment.usersTotalCount;
     this.pageSizeOptions = pageSizeOptions
@@ -51,27 +53,38 @@ export class UsersPageComponent implements OnInit {
   ngOnInit(): void {
     this.getUsers(this.page, this.pageSize);
 
-    this.responsedUsers$.pipe(
+    this.responsedUsers$
+    .pipe(
       switchMap(() => {
         return this.userApiService.getUsers({ page: this.page, results: this.pageSize, tag: this.searchValue });
       }),
-    ).subscribe(users => this.users = users);
+      takeUntil(this.destroySubsciption)
+    )
+    .subscribe(users => this.users = users);
 
 
-    this.exelUser$.pipe(
+    this.exelUser$
+    .pipe(
       mergeMap(user => this.userApiService.getUserById(user.id)),
-    ).subscribe(data => console.log("Excel report downloaded:", data));
+      takeUntil(this.destroySubsciption)
+    )
+    .subscribe(user => console.log("Excel report downloaded:", user));
 
-    this.orderUser$.pipe(
+    this.orderUser$.
+    pipe(
       concatMap(user => this.userApiService.getUserById(user.id)),
-    ).subscribe(data => console.log("Excel report downloaded:", data));
+      takeUntil(this.destroySubsciption)
+    )
+    .subscribe(user => console.log("Excel report downloaded:", user));
 
-    this.multiResponsedUsers$.pipe(
+    this.multiResponsedUsers$
+    .pipe(
       exhaustMap(() => {
         return this.userApiService.getUsers({ page: this.page, results: this.pageSize, tag: this.searchValue });
       }),
-
-    ).subscribe(users => this.users = users);
+      takeUntil(this.destroySubsciption)
+    )
+    .subscribe(users => this.users = users);
 
 
     // this.favoriteIds = this.favoriteDataService.getFavorites(FavoriteTypes.User);
@@ -82,6 +95,10 @@ export class UsersPageComponent implements OnInit {
   //   this.favoriteIds = this.favoriteDataService.updateFavoriteItems(FavoriteTypes.User, +user.id);
   //   this.subscription.add(this.userService.getFavoriteUsers().subscribe(favorits => this.favoriteUsers = favorits));
   // }
+
+  ngOnDestroy(): void {
+    this.destroySubsciption.next(true);
+  }
 
   searchUsers(param: string): void {
     if ((this.searchValue.length > 0 && param.length === 0) || (this.searchValue.length === 0 && param.length > 0)) {
@@ -114,13 +131,13 @@ export class UsersPageComponent implements OnInit {
     this.multiResponsedUsers.next();
   }
 
-  saveUser(user: IUser): void {
-    console.log('request from ', user.id)
+  downloadUser(user: IUser): void {
+    console.log('Request from ', user.id)
     this.exelUser.next(user)
   }
 
-  saveInOrderUser(user: IUser): void {
-    console.log('request from ', user.id)
+  downloadInOrderUser(user: IUser): void {
+    console.log('Request from ', user.id)
     this.orderUser.next(user);
   }
 
