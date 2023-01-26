@@ -2,7 +2,7 @@
   <mat-list class="users-list">
     <ng-container *ngFor="let user of users">
       <app-user-list-item [isFavorite]="isFavorite(user)" [user]="user"
-        (favoriteChangedEvent)="changeFavorite(user)"></app-user-list-item>
+        (favoriteChangedEvent)="changeFavorite(user)" (saveToExelEvent)="saveUser(user)" (saveInOrderEvent)="saveInOrder(user)"></app-user-list-item>
     </ng-container>
   </mat-list>
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { concatMap, exhaustMap, mergeMap, Subject, switchMap } from 'rxjs';
 import { FavoriteDataService } from 'src/app/modules/shared/services/favorite-data.service';
 import { enviroment } from 'src/enviroments/enviroment';
 import { pageSizeOptions } from '../../consts/paginatorValues';
@@ -29,14 +30,50 @@ export class UsersPageComponent implements OnInit {
 
   pageSizeOptions: number[];
 
+  responsedUsers = new Subject<void>();
+  responsedUsers$ = this.responsedUsers.asObservable();
+
+  exelUser: Subject<IUser> = new Subject();
+  exelUser$ = this.exelUser.asObservable();
+
+  orderUser: Subject<IUser> = new Subject();
+  orderUser$ = this.orderUser.asObservable();
+
+  multiResponsedUsers = new Subject<void>();
+  multiResponsedUsers$ = this.multiResponsedUsers.asObservable();
+
   constructor(private userApiService: UserApiService, private favoriteDataService: FavoriteDataService) {
     this.length = enviroment.usersTotalCount;
     this.pageSizeOptions = pageSizeOptions
-   }
+  }
 
 
   ngOnInit(): void {
     this.getUsers(this.page, this.pageSize);
+
+    this.responsedUsers$.pipe(
+      switchMap(() => {
+        return this.userApiService.getUsers({ page: this.page, results: this.pageSize, tag: this.searchValue });
+      }),
+    ).subscribe(users => this.users = users);
+
+
+    this.exelUser$.pipe(
+      mergeMap(user => this.userApiService.getUserById(user.id)),
+    ).subscribe(data => console.log("Excel report downloaded:", data));
+
+    this.orderUser$.pipe(
+      concatMap(user => this.userApiService.getUserById(user.id)),
+    ).subscribe(data => console.log("Excel report downloaded:", data));
+
+    this.multiResponsedUsers$.pipe(
+      exhaustMap(() => {
+        return this.userApiService.getUsers({ page: this.page, results: this.pageSize, tag: this.searchValue });
+      }),
+
+    ).subscribe(users => this.users = users);
+
+
     // this.favoriteIds = this.favoriteDataService.getFavorites(FavoriteTypes.User);
     // this.subscription.add(this.userService.getFavoriteUsers().subscribe(favorits => this.favoriteUsers = favorits));
   }
@@ -53,19 +90,40 @@ export class UsersPageComponent implements OnInit {
     }
 
     this.searchValue = param;
-      this.getUsers(1, 10, param);
+    this.getUsers(1, 10, param);
   }
 
   paginate(e: PageEvent): void {
     this.page = e.pageIndex + 1;
     this.pageSize = e.pageSize;
-      this.getUsers(this.page, this.pageSize, this.searchValue);
+    this.getUsers(this.page, this.pageSize, this.searchValue);
   }
 
   getUsers(page: number, results: number, tag?: string): void {
-      this.userApiService.getUsers({page, results, tag})
+    this.userApiService.getUsers({ page, results, tag })
       .subscribe(users => {
         this.users = users;
       });
   }
+
+  refresh(): void {
+    this.responsedUsers.next();
+  }
+
+  multiRefresh(): void {
+    this.multiResponsedUsers.next();
+  }
+
+  saveUser(user: IUser): void {
+    console.log('request from ', user.id)
+    this.exelUser.next(user)
+  }
+
+  saveInOrderUser(user: IUser): void {
+    console.log('request from ', user.id)
+    this.orderUser.next(user);
+  }
+
 }
+
+

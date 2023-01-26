@@ -13,6 +13,8 @@ export class UserListItemComponent {
   @Input() user!: IUser;
   @Input() isFavorite!: boolean;
   @Output() favoriteChangedEvent = new EventEmitter();
+  @Output() saveToExelEvent = new EventEmitter();
+  @Output() saveInOrderEvent = new EventEmitter();
   defaultImg!: string;
 
   constructor(private router: Router) {
@@ -24,7 +26,14 @@ export class UserListItemComponent {
   }
 
   navigateEditPage(id: string): void {
-    console.log('----', id)
     this.router.navigate(['/edit-user', id])
   }
+  save(): void {
+    this.saveToExelEvent.emit();
+  }
+
+  saveInOrder(): void {
+    this.saveInOrderEvent.emit();
+  }
+
 }

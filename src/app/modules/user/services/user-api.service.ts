@@ -1,12 +1,13 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { delay, map, Observable } from 'rxjs';
 import { ServerResponse } from '../../core/models/http-response.interface';
 import { ApiService } from '../../core/services/api.service';
 import { Address } from '../../shared/models/addresses.interface';
 import { IFormUser } from '../models/form-user-data.interface';
 import { IUser } from '../models/user.interface';
+import { randomDelay } from '../utils/random-time';
 import { convertToUserList } from '../utils/user-conversion';
 
 @Injectable({
@@ -16,7 +17,7 @@ export class UserApiService {
 
   constructor(private apiService: ApiService) { }
 
-  getUsers({page = 1, results = 10, tag}: Params): Observable<IUser[]> {
+  getUsers({ page = 1, results = 10, tag, id }: Params): Observable<IUser[]> {
     let params = new HttpParams();
     params = params.set('seed', 'abc');
     params = params.set('results', results);
@@ -24,6 +25,10 @@ export class UserApiService {
 
     if (tag && tag.length > 0) {
       params = params.set('search', tag);
+    }
+
+    if (id && id.length > 0) {
+      params = params.set('id', id);
     }
 
     const options = {
@@ -62,14 +67,13 @@ export class UserApiService {
     )
   }
 
-  // getUserById(id: number): Observable<IUser | undefined> {
-  //   return this.getUsers().pipe(
-  //     take(1),
-  //     delay(700),
-  //     map((users) => {
-  //       return users.find((user) => +user.id === id)!;
-  //     })
-  //   );
-  // }
+  getUserById(id: string): Observable<string> {
+    return this.apiService.get<ServerResponse>('', { params: { id: id } }).pipe(
+      map(() => {
+        return `Excel from user with ID '${id}'`
+      }),
+      delay(randomDelay(id, 10000, 20000))
+    )
+  }
 
 }

@@ -4,9 +4,17 @@
       {{user.firstName}}
       {{user.lastName}}
       <strong>{{user.age}}</strong></p>
-    <button mat-icon-button (click)="navigateEditPage(user.id)">
+    <!-- <button mat-icon-button (click)="navigateEditPage(user.id)">
       <mat-icon>create</mat-icon>
+    </button> -->
+    <button mat-icon-button aria-label="Refresh button" (click)="save()">
+      <mat-icon>save_alt</mat-icon>
     </button>
+
+    <button mat-icon-button aria-label="Refresh button" (click)="saveInOrder()">
+      <mat-icon>save</mat-icon>
+    </button>
+
   </div>
   <img imgUrl class="user-img" [src]="user.imageUrl || defaultImg" alt="User image">
 
