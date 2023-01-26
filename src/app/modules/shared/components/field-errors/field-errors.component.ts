@@ -15,10 +15,18 @@ export class FieldErrorsComponent {
     showValidationMessage(): string {
         const errors: ValidationErrors = <ValidationErrors>this.control?.errors;
         return Object.entries(errors).map(([errorType]) => {
-            const message = messages[errorType].replace(':field:', this.label)
-            .replace(':n:', this.control.getError(errorType)[errorType]);
+            const message =  
+            errorType === 'minLength' || errorType === 'maxLength' ? 
+            messages[errorType].replace(':field:', this.label)
+            .replace(':n:', this.control.getError(errorType)[errorType]) 
+            : 
+            messages[errorType].replace(':field:', this.label)
+            .replace(':n:', this.control.getError(errorType)['requiredLength']);           
+        
             return message;
         }).reduce((acc, errorMessage) => acc + errorMessage, "");
+
+
 
     }
 }

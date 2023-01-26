@@ -1,0 +1,22 @@
+<div  [formGroup]="signUpPageForm" class="sign-up-wrapper">
+    <h1 class="title">Sign Up</h1>
+    
+    <app-auth-form class="auth-form" (initAuthForm)="addChildForm($event, 'commonInfo')"></app-auth-form>
+
+    <mat-form-field class="form-item" appearance="fill">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput type="number" formControlName="confirmPassword" />
+    </mat-form-field>
+
+    <app-field-errors class="text-danger" [control]="confirmPasswordControl"
+     [label]="'Confirm Password'"></app-field-errors>
+    
+    <button type="submit" class="submit-btn" mat-flat-button color="accent">Sign Up</button>
+    
+    <div class="redirect-login">
+        <p class="redirect-text">Already have an acoount? </p>
+        <a routerLink="/signin" class="link-register"> Login</a>
+    </div>
+    </div>
+    
+    

@@ -4,12 +4,13 @@ interface IMessagesKeys {
 
 export const messages: IMessagesKeys = {
   required: ':field: is required. ',
-  maxlength: ':field: must be at most 35 characters length.',
-  minlength: ':field: must be at least 6 characters length.',
+  maxlength: ':field: must be at most :n: characters length.',
+  minlength: ':field: must be at least :n: characters length.',
   max: ':field: must be at most :n:.',
   min: ':field: must be at least :n:.',
   email: 'Please enter a valid email address. ',
   gmailFormat: 'It should be `@gmail.com` domain. ',
   emailExists: 'The email is already registered. ',
-  customRequired: 'If a city is selected, then the zip code is required.'
+  customRequired: 'If a city is selected, then the zip code is required.',
+  pattern: ':field: must have at least 8 characters long, include number and letters'
 };
