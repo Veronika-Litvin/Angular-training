@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SignInPageComponent } from './modules/authorization/pages/sign-in-page/sign-in-page.component';
 import { SignUpPageComponent } from './modules/authorization/pages/sign-up-page/sign-up-page.component';
-import { CarsPageComponent } from './modules/car/pages/cars-page/cars-page.component';
+import { AuthGuard } from './modules/authorization/services/auth.guard';
+import { HomePageComponent } from './modules/home/pages/home-page/home-page.component';
 import { UserCreationPageComponent } from './modules/user/pages/user-creation-page/user-creation-page.component';
-import { UsersPageComponent } from './modules/user/pages/users-page/users-page.component';
 
 const routes: Routes = [
   {
@@ -17,12 +17,8 @@ const routes: Routes = [
     loadChildren: () => import('./modules/user/user-routing.module').then(m => m.UserRoutingModule)
   },
   {
-    path: 'car',
-    component: CarsPageComponent
-  },
-  {
-    path: 'user',
-    component: UsersPageComponent
+    path: '',
+    loadChildren: () => import('./modules/car/car-routing.module').then(m => m.CarRoutingModule)
   },
   {
     path: 'create-user',
@@ -35,6 +31,10 @@ const routes: Routes = [
   {
     path: 'signup',
     component: SignUpPageComponent
+  },
+  {
+    path: 'home',
+    component: HomePageComponent
   }
 
 
@@ -42,6 +42,9 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [    
+    AuthGuard   
+  ],
 })
 export class AppRoutingModule { }
