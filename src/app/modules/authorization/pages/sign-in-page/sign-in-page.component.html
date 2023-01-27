@@ -1,7 +1,26 @@
 <div class="sign-in-wrapper">
 <h1 class="title">Login</h1>
 
-<app-auth-form class="auth-form"></app-auth-form>
+<div [formGroup]="authForm" class="auth-form">
+
+    <mat-form-field class="form-item" appearance="fill">
+        <mat-label>User Name</mat-label>
+        <input matInput type="text" formControlName="userName" />
+    </mat-form-field>
+
+    <app-field-errors class="text-danger" [control]="authFormControl['userName']"
+        [label]="'User Name'"></app-field-errors>
+
+
+    <mat-form-field class="form-item" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" />
+    </mat-form-field>
+
+    <app-field-errors class="text-danger" [control]="authFormControl['password']"
+     [label]="'Password'"></app-field-errors>
+
+</div>
 
 <button type="submit" class="submit-btn" mat-flat-button color="accent">Login</button>
 

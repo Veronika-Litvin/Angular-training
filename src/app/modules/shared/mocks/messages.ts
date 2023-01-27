@@ -12,5 +12,6 @@ export const messages: IMessagesKeys = {
   gmailFormat: 'It should be `@gmail.com` domain. ',
   emailExists: 'The email is already registered. ',
   customRequired: 'If a city is selected, then the zip code is required.',
-  pattern: ':field: must have at least 8 characters long, include number and letters'
+  pattern: ':field: must have at least 8 characters long, include number and letters',
+  mismatch: 'Password and Confirm Password must match'
 };

@@ -1,15 +1,38 @@
-<div  [formGroup]="signUpPageForm" class="sign-up-wrapper">
+<div  class="sign-up-wrapper">
     <h1 class="title">Sign Up</h1>
     
-    <app-auth-form class="auth-form" (initAuthForm)="addChildForm($event, 'commonInfo')"></app-auth-form>
+    <div [formGroup]="signUpPageForm" class="auth-form">
 
-    <mat-form-field class="form-item" appearance="fill">
-        <mat-label>Confirm Password</mat-label>
-        <input matInput type="number" formControlName="confirmPassword" />
-    </mat-form-field>
+        <mat-form-field class="form-item" appearance="fill">
+            <mat-label>User Name</mat-label>
+            <input matInput type="text" formControlName="userName" />
+        </mat-form-field>
+    
+        <app-field-errors class="text-danger" [control]="signUpPageForm.controls['userName']"
+            [label]="'User Name'"></app-field-errors>
+    
+        <div formGroupName="passGroup">
+    
+        <mat-form-field class="form-item" appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" />
+        </mat-form-field>
+    
+        <app-field-errors class="text-danger" [control]="passGroupControl['password']"
+         [label]="'Password'"></app-field-errors>
 
-    <app-field-errors class="text-danger" [control]="confirmPasswordControl"
-     [label]="'Confirm Password'"></app-field-errors>
+         <mat-form-field class="form-item" appearance="fill">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput formControlName="confirmPassword" />
+        </mat-form-field>
+
+        <app-field-errors class="text-danger" [control]="passGroupControl['confirmPassword']"
+        [label]="'Confirm Password'"></app-field-errors>
+
+        </div>
+    
+    </div>
+
     
     <button type="submit" class="submit-btn" mat-flat-button color="accent">Sign Up</button>
     
