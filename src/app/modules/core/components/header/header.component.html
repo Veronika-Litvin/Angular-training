@@ -1,5 +1,24 @@
 <div class="header-wrapper">
-    <button mat-stroked-button class="navigate-btn" color="accent" (click)="navigateUserPage()">Users</button>
-    <button mat-stroked-button class="navigate-btn" color="accent" (click)="navigateUserCreatePage()">Create user</button>
-    <button mat-stroked-button class="navigate-btn" color="accent" (click)="navigateCarPage()">Cars</button>
+
+    <div class="btns-wrapper">
+        <button mat-stroked-button class="navigate-btn" color="accent" (click)="navigateUserPage()">Users</button>
+        <button mat-stroked-button class="navigate-btn" color="accent" (click)="navigateUserCreatePage()">Create
+            user</button>
+        <button mat-stroked-button class="navigate-btn" color="accent" (click)="navigateCarPage()">Cars</button>
+    </div>
+
+    <div class="user-space">
+        <img src="../../../../../assets/unknown.png" alt="User photo" class="user-img">
+
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" class="menu-btn">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="logOutUser()">
+              <mat-icon>exit_to_app</mat-icon>
+              <span>Log out</span>
+            </button>
+          </mat-menu>
+    </div>
+
 </div>

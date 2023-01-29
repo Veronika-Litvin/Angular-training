@@ -1,7 +1,19 @@
 .header-wrapper {
     background-color: rgba(234, 170, 170, 0.132);
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
 }
 
 .navigate-btn {
     margin: 10px;
+}
+
+.user-img {
+    width: 40px;
+    border-radius: 30px;
+}
+
+.menu-btn {
+    vertical-align: top;
 }

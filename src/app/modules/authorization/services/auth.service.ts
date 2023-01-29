@@ -23,7 +23,10 @@ export class AuthService {
         this.isLogged = false
         return false;
     }
+  }
 
+  logOut() {
+    localStorage.removeItem('currentUser');
   }
 
 }
