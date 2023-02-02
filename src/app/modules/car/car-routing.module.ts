@@ -5,7 +5,7 @@ import { CarsPageComponent } from "./pages/cars-page/cars-page.component";
 
 const CARS_ROUTES: Routes = [
     {
-        path: 'car',
+        path: '',
         component: CarsPageComponent,
         canActivate: [AuthGuard],
     },

@@ -21,12 +21,11 @@ export class SignUpPageComponent implements OnInit{
     this.signUpPageForm = this.formBuilder.group({
       userName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(23)]],
       passGroup: this.formBuilder.group({
-        password: ['',  [Validators.required]],
+        password: ['',  [Validators.required, Validators.pattern('(?=\\D*\\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}')]],
         confirmPassword: ['',  [Validators.required]]
       }, { validator: confirmPassValidator })
     });
   }
-  // Validators.pattern('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/')]
   
   get passGroupControl(): { [key: string]: AbstractControl } {
     return this.passGroup.controls;
@@ -41,10 +40,7 @@ export class SignUpPageComponent implements OnInit{
     if(this.signUpPageForm.valid) {
       const formValues = this.signUpPageForm.value;
       this.authService.registerUser({name: formValues.userName, password: formValues.passGroup.password});
-      localStorage.setItem('currentUser', formValues.userName);
       this.router.navigate(['home']);
     }
-
   }
-  
 }

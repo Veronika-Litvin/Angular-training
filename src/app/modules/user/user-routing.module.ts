@@ -7,7 +7,7 @@ import { UsersPageComponent } from "./pages/users-page/users-page.component";
 
 const USERS_ROUTES: Routes = [
           {
-          path: 'user',
+          path: '',
           component: UsersPageComponent,
           canActivate: [AuthGuard],
           canActivateChild: [AuthGuard],

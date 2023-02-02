@@ -13,11 +13,11 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: '',
+    path: 'user',
     loadChildren: () => import('./modules/user/user-routing.module').then(m => m.UserRoutingModule)
   },
   {
-    path: '',
+    path: 'car',
     loadChildren: () => import('./modules/car/car-routing.module').then(m => m.CarRoutingModule)
   },
   {
