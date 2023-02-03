@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { merge, Subscription } from 'rxjs';
-import { CanDeactivateComponent } from 'src/app/modules/shared/guards/leave-page.guard';
+import { CanDeactivateComponent } from 'src/app/modules/core/guards/leave-page.guard';
 import { IUser } from '../../models/user.interface';
 import { UserApiService } from '../../services/user-api.service';
 

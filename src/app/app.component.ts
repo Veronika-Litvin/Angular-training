@@ -1,29 +1,22 @@
-import { Component } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'angular-training';
 
-  showHead = false;
+  constructor(private router: Router) { }
 
-  constructor(private router: Router) {
+  ngOnInit(): void {
     this.router.events
       .subscribe(
         (event) => {
-          if (event instanceof NavigationStart) {
+          if (event instanceof NavigationEnd) {
             console.log(`You have visited the page '${event.url}'`);
-          }
-          if (event instanceof NavigationStart) {
-            if (event.url == '/signin' || event['url'] == '/signup') {
-              this.showHead = false;
-            } else {
-              this.showHead = true;
-            }
           }
         });
   }

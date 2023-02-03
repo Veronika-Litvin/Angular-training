@@ -4,8 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
-import { UserModule } from './modules/user/user.module';
-import { CarModule } from './modules/car/car.module';
 import { CoreModule } from './modules/core/core.module';
 import { AuthorizationModule } from './modules/authorization/authorization.module';
 
@@ -18,8 +16,6 @@ import { AuthorizationModule } from './modules/authorization/authorization.modul
     AppRoutingModule,
     CommonModule,
     BrowserAnimationsModule,
-    UserModule,
-    CarModule,
     CoreModule,
     AuthorizationModule
   ],

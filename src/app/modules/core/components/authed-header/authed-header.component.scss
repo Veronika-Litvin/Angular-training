@@ -1,8 +1,12 @@
 .header-wrapper {
-    background-color: rgba(234, 170, 170, 0.132);
     display: flex;
     justify-content: space-between;
     padding-top: 10px;
+}
+
+.user-space {
+    display: flex;
+    justify-content: space-between;
 }
 
 .navigate-btn {
@@ -10,10 +14,12 @@
 }
 
 .user-img {
-    width: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 30px;
 }
 
 .menu-btn {
     vertical-align: top;
+    margin-top: -5px;
 }

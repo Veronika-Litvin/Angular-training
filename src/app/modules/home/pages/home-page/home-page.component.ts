@@ -5,10 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss']
 })
-export class HomePageComponent {
-  userName!: string;
-
-  constructor() {
-    this.userName = localStorage.getItem('currentUser')!;
-  }
-}
+export class HomePageComponent {}

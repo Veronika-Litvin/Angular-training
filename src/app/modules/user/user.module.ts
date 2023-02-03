@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { UserCreateFormComponent } from './components/user-create-form/user-create-form.component';
 import { UserEditPageComponent } from './pages/user-edit-page/user-edit-page.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { UserRoutingModule } from './user-routing.module';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    UserRoutingModule
   ]
 })
 export class UserModule { }

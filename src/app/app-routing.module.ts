@@ -2,50 +2,67 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SignInPageComponent } from './modules/authorization/pages/sign-in-page/sign-in-page.component';
 import { SignUpPageComponent } from './modules/authorization/pages/sign-up-page/sign-up-page.component';
-import { AuthGuard } from './modules/authorization/services/auth.guard';
+import { AuthGuard } from './modules/core/guards/auth.guard';
+import { LoadGuard } from './modules/core/guards/load.guard';
+import { AuthedUserWrapperComponent } from './modules/core/components/authed-user-wrapper/authed-user-wrapper.component';
+import { NotAuthedUserWrapperComponent } from './modules/core/components/not-authed-user-wrapper/not-authed-user-wrapper.component';
 import { HomePageComponent } from './modules/home/pages/home-page/home-page.component';
-import { UserCreationPageComponent } from './modules/user/pages/user-creation-page/user-creation-page.component';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'signin',
-    pathMatch: 'full'
+    path: '', 
+    component: AuthedUserWrapperComponent,
+    canActivate: [AuthGuard], 
+    children: [
+      { 
+        path: '', 
+        redirectTo: 'signin', 
+        pathMatch: 'full' 
+      },
+      { 
+        path: 'home', 
+        component: HomePageComponent 
+      },
+      {
+        path: 'car', 
+        canLoad: [LoadGuard],
+        loadChildren: () => import('./modules/car/car.module').then(m => m.CarModule)
+      },
+      {
+        path: 'user',
+        canLoad: [LoadGuard],
+        loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
+      },
+    ],
   },
-  {
-    path: 'user',
-    loadChildren: () => import('./modules/user/user-routing.module').then(m => m.UserRoutingModule)
-  },
-  {
-    path: 'car',
-    loadChildren: () => import('./modules/car/car-routing.module').then(m => m.CarRoutingModule)
-  },
-  {
-    path: 'create-user',
-    component: UserCreationPageComponent
-  },
-  {
-    path: 'signin',
-    component: SignInPageComponent
-  },
-  {
-    path: 'signup',
-    component: SignUpPageComponent
-  },
-  {
-    path: 'home',
-    component: HomePageComponent,
-    canActivate: [AuthGuard]
-  }
+    {
+      path: '',
+      component: NotAuthedUserWrapperComponent,
+      children: [
+        {
+          path: 'signin',
+          component: SignInPageComponent
+        },
+        {
+          path: 'signup',
+          component: SignUpPageComponent
+        },
+      ]
+    },
 
+  { 
+    path: "**", 
+    redirectTo: "home", 
+    pathMatch: 'full' 
+  },
 
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [    
-    AuthGuard   
+  providers: [
+    AuthGuard
   ],
 })
 export class AppRoutingModule { }

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CanDeactivate } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { ConfirmationModalComponent } from '../components/confirmation-modal/confirmation-modal.component';
-import { getDialogConfig } from '../mocks/dialog.config';
+import { ConfirmationModalComponent } from '../../shared/components/confirmation-modal/confirmation-modal.component';
+import { getDialogConfig } from '../../shared/mocks/dialog.config';
 import { map } from 'rxjs/operators';
 
 export interface CanDeactivateComponent {

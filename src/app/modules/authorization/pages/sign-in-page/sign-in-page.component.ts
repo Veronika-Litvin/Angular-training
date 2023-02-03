@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-sign-in-page',
@@ -13,8 +13,8 @@ export class SignInPageComponent {
   constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) { }
 
   authForm: FormGroup = this.formBuilder.group({
-    userName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(23)]],
-    password: ['',  [Validators.required]],
+    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(23)]],
+    password: ['', [Validators.required]],
   })
 
   get authFormControl(): { [key: string]: AbstractControl } {
@@ -22,13 +22,15 @@ export class SignInPageComponent {
   }
 
   login(): void {
-    console.log('work')
-    if (this.authForm.valid &&
-      this.authService.loginUser({name: this.authForm.value.userName, password: this.authForm.value.password})) {
-      localStorage.setItem('currentUser', this.authForm.value.userName);
-        this.router.navigate(['home']);
-      }else {
-        alert('Incorrect user name or password');
-      }
+    this.authForm.markAllAsTouched();
+
+    if (this.authForm.valid) {
+      const formValue = this.authForm.value;
+      this.authService.loginUser(formValue)
+        .subscribe((isSuccess) => {
+          console.log(formValue)
+          isSuccess ? this.router.navigate(['home']) : alert('Incorrect user name or password');
+        });
+    }
   }
 }

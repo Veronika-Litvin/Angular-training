@@ -7,6 +7,7 @@ import { CarListComponent } from './components/car-list/car-list.component';
 import { CarsPageComponent } from './pages/cars-page/cars-page.component';
 import { SharedModule } from '../shared/shared.module';
 import {MatListModule} from '@angular/material/list';
+import { CarRoutingModule } from './car-routing.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,11 @@ import {MatListModule} from '@angular/material/list';
     MatInputModule,
     FormsModule,
     SharedModule,
-    MatListModule
-  ]
+    MatListModule,
+    CarRoutingModule
+  ],
+  exports: [
+    CarsPageComponent,
+  ],
 })
 export class CarModule { }
