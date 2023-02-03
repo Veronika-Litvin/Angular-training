@@ -15,6 +15,8 @@ import { ConfirmationModalComponent } from './components/confirmation-modal/conf
 import { MatDialogModule } from '@angular/material/dialog';
 import { SearchComponent } from './components/search/search.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CreateFullNamePipe } from './pipes/create-full-name.pipe';
+import { AddExclamationPipe } from './pipes/exclamation.pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { HttpClientModule } from '@angular/common/http';
     AddressesComponent,
     AddressComponent,
     ConfirmationModalComponent,
-    SearchComponent
+    SearchComponent,
+    CreateFullNamePipe,
+    AddExclamationPipe
   ],
   imports: [
     CommonModule,
@@ -45,7 +49,9 @@ import { HttpClientModule } from '@angular/common/http';
     AddressesComponent,
     ConfirmationModalComponent,
     SearchComponent,
-    HttpClientModule
+    HttpClientModule,   
+    CreateFullNamePipe,
+    AddExclamationPipe
   ]
 })
 export class SharedModule { }
