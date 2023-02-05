@@ -18,7 +18,11 @@ import { UserCreateFormComponent } from './components/user-create-form/user-crea
 import { UserEditPageComponent } from './pages/user-edit-page/user-edit-page.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { UserRoutingModule } from './user-routing.module';
-
+import { UserInfoPageComponent } from './pages/user-info-page/user-info-page.component';
+import { CompanyInfoComponent } from './components/company-info/company-info.component';
+import { PersonalInfoComponent } from './components/personal-info/personal-info.component';
+import { ContactsComponent } from './components/contacts/contacts.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,11 @@ import { UserRoutingModule } from './user-routing.module';
     UserListComponent,
     UserCreationPageComponent,
     UserCreateFormComponent,
-    UserEditPageComponent
+    UserEditPageComponent,
+    UserInfoPageComponent,
+    CompanyInfoComponent,
+    PersonalInfoComponent,
+    ContactsComponent
   ],
   imports: [
     CommonModule,
@@ -42,7 +50,8 @@ import { UserRoutingModule } from './user-routing.module';
     MatFormFieldModule,
     MatInputModule,
     MatPaginatorModule,
-    UserRoutingModule
+    UserRoutingModule,
+    MatTabsModule
   ]
 })
 export class UserModule { }

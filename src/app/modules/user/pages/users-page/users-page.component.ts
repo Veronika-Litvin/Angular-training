@@ -65,14 +65,14 @@ export class UsersPageComponent implements OnInit, OnDestroy {
 
     this.exelUser$
     .pipe(
-      mergeMap(user => this.userApiService.getUserById(user.id)),
+      mergeMap(user => this.userApiService.getUserId(user.id)),
       takeUntil(this.destroySubsciption)
     )
     .subscribe(user => console.log("Excel report downloaded:", user));
 
     this.orderUser$.
     pipe(
-      concatMap(user => this.userApiService.getUserById(user.id)),
+      concatMap(user => this.userApiService.getUserId(user.id)),
       takeUntil(this.destroySubsciption)
     )
     .subscribe(user => console.log("Excel report downloaded:", user));

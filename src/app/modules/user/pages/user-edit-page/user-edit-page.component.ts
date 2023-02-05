@@ -35,7 +35,7 @@ export class UserEditPageComponent implements OnInit, OnDestroy, CanDeactivateCo
     //   this.id = +params['id'];
 
     //   this.userApiService
-    //     .getUserById(this.id)
+    //     .getUserId(this.id)
     //     .pipe(take(1))
     //     .subscribe((value) => {
     //       console.log(value)

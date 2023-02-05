@@ -1,17 +1,20 @@
 <app-card (toggleItemEvent)="toggleFavorits()" [isFavorite]="isFavorite">
   <div titleData class="header">
-    <p class="name"><span class="category-name">Name </span><br>
-    {{ user | createFullName}}
+    <p class="name"> {{ user | createFullName}}
       <strong>{{user.age | addExclamation}}</strong></p>
     <!-- <button mat-icon-button (click)="navigateEditPage(user.id)">
       <mat-icon>create</mat-icon>
     </button> -->
-    <button mat-icon-button aria-label="Refresh button" (click)="save()">
+    <button mat-icon-button aria-label="Save button" (click)="save()">
       <mat-icon>save_alt</mat-icon>
     </button>
 
-    <button mat-icon-button aria-label="Refresh button" (click)="saveInOrder()">
+    <button mat-icon-button aria-label="Save button" (click)="saveInOrder()">
       <mat-icon>save</mat-icon>
+    </button>
+
+    <button mat-icon-button aria-label="Info button" [routerLink]="['info', user.id]">
+      <mat-icon>info</mat-icon>
     </button>
 
   </div>

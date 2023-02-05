@@ -67,7 +67,7 @@ export class UserApiService {
     )
   }
 
-  getUserById(id: string): Observable<string> {
+  getUserId(id: string): Observable<string> {
     return this.apiService.get<ServerResponse>('', { params: { id: id } }).pipe(
       map(() => {
         return id
@@ -75,5 +75,17 @@ export class UserApiService {
       delay(randomDelay(id, 10000, 20000))
     )
   }
+
+  
+  getUserById(id: string): Observable<IUser | undefined> {
+        return this.apiService.get<ServerResponse>('', { params: { results: 10, seed: 'abc', id: id } })
+        .pipe(
+          map((response) => {
+            return convertToUserList(response.body)
+                  .find((user: IUser) => user.id === id);
+          })
+        );
+  }
+  
 
 }

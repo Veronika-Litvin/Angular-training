@@ -12,6 +12,8 @@ export function convertToUserList(data: ServerResponse): IUser[] {
       phone: serverUser.phone,
       gender: serverUser.gender === 'female' ? true : false,
       imageUrl: serverUser.picture.large,
+      company: 'ISsoft',
+      department: 'Frontend',
       addresses: [
         {
           addressLine: serverUser.location.country,

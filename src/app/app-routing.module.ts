@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SignInPageComponent } from './modules/authorization/pages/sign-in-page/sign-in-page.component';
 import { SignUpPageComponent } from './modules/authorization/pages/sign-up-page/sign-up-page.component';
-import { AuthGuard } from './modules/core/guards/auth.guard';
 import { LoadGuard } from './modules/core/guards/load.guard';
 import { AuthedUserWrapperComponent } from './modules/core/components/authed-user-wrapper/authed-user-wrapper.component';
 import { NotAuthedUserWrapperComponent } from './modules/core/components/not-authed-user-wrapper/not-authed-user-wrapper.component';
 import { HomePageComponent } from './modules/home/pages/home-page/home-page.component';
+import { AuthGuard } from './modules/core/guards/auth.guard';
 
 const routes: Routes = [
   {
