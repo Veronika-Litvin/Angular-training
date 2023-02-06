@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from 'src/app/modules/shared/services/auth.service';
 
 @Component({
@@ -9,13 +8,10 @@ import { AuthService } from 'src/app/modules/shared/services/auth.service';
 })
 export class HeaderComponent {
 
-  currentUser = '';
+  currentUser = localStorage.getItem('currentUser');
 
-  constructor(private router: Router, private authService: AuthService) {
-    this.authService.currentUser.subscribe(user => {
-        this.currentUser = user;
-    });
-}
+  constructor(private authService: AuthService) {}
+
   logOutUser() {
     this.authService.logOut();
   }

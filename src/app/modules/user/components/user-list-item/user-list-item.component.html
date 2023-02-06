@@ -1,6 +1,6 @@
 <app-card (toggleItemEvent)="toggleFavorits()" [isFavorite]="isFavorite">
   <div titleData class="header">
-    <p class="name"> {{ user | createFullName}}
+    <p class="name"> {{ user.firstName | createFullName : user.lastName}}
       <strong>{{user.age | addExclamation}}</strong></p>
     <!-- <button mat-icon-button (click)="navigateEditPage(user.id)">
       <mat-icon>create</mat-icon>

@@ -19,12 +19,12 @@ const routes: Routes = [
         component: HomePageComponent 
       },
       {
-        path: 'car', 
+        path: 'cars', 
         canLoad: [LoadGuard],
         loadChildren: () => import('./modules/car/car.module').then(m => m.CarModule)
       },
       {
-        path: 'user',
+        path: 'users',
         canLoad: [LoadGuard],
         loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
       },

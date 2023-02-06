@@ -93,7 +93,7 @@ export class UserEditPageComponent implements OnInit, OnDestroy, CanDeactivateCo
     if (this.editPageForm.valid || this.editPageForm.pristine) {
       this.userApiService.updateUser(this.currentUser!.id, this.editPageForm.value.user, this.editPageForm.value.addresses).subscribe((isSuccessfully) => {
         if (isSuccessfully) {
-          this.router.navigate(['user']);
+          this.router.navigate(['users']);
         } else {
           console.log('error')
         }

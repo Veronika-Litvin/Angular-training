@@ -1,7 +1,7 @@
 <div class="sign-in-wrapper">
     <h1 class="title">Login</h1>
 
-    <div [formGroup]="authForm" class="auth-form">
+    <form [formGroup]="authForm" class="auth-form" (submit)="login()">
 
         <mat-form-field class="form-item" appearance="fill">
             <mat-label>User Name</mat-label>
@@ -20,9 +20,9 @@
         <app-field-errors class="text-danger" [control]="authFormControl['password']"
             [label]="'Password'"></app-field-errors>
 
-    </div>
+        <button type="submit" class="submit-btn" mat-flat-button color="accent">Login</button>
 
-    <button type="submit" class="submit-btn" mat-flat-button color="accent" (click)="login()">Login</button>
+    </form>
 
     <div class="redirect-register">
         <p class="redirect-text">Don't have an acoount? </p>

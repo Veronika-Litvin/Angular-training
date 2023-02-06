@@ -1,7 +1,10 @@
-<h2 *ngIf="currentUser" class="user-name">{{currentUser | createFullName}}</h2>
+<h2 *ngIf="currentUser" class="user-name">{{currentUser.firstName | createFullName : currentUser.lastName}}</h2>
 <nav mat-tab-nav-bar [tabPanel]="tabPanel">
-  <a mat-tab-link *ngFor="let link of navLinks" (click)="activeLink = link" [routerLink]="link.path"
-    [active]="activeLink === link">
+  <a mat-tab-link *ngFor="let link of navLinks" 
+    (click)="activeLink = link" 
+    [routerLink]="link.path"
+    routerLinkActive #rla="routerLinkActive"
+    [active]="rla.isActive">
     {{link.label}}</a>
 </nav>
 <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
