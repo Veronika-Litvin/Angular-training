@@ -1,7 +1,8 @@
-<h2>{{currentUser | createFullName}}</h2>
-<nav mat-tab-nav-bar backgroundColor='accent' [tabPanel]="tabPanel">
+<h2 *ngIf="currentUser" class="user-name">{{currentUser | createFullName}}</h2>
+<nav mat-tab-nav-bar [tabPanel]="tabPanel">
   <a mat-tab-link *ngFor="let link of navLinks" (click)="activeLink = link" [routerLink]="link.path"
-    [active]="activeLink === link"> {{link.label}} </a>
+    [active]="activeLink === link">
+    {{link.label}}</a>
 </nav>
 <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
 

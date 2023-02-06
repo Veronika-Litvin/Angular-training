@@ -22,7 +22,7 @@
 
   <div additionalData>
     <p><span class="category-name">Email: </span> {{user.userEmail}}</p>
-    <p><span class="category-name">Gender: </span> {{user.gender ? 'female' : 'male'}}</p>
+    <p><span class="category-name">Gender: </span> {{user.gender | handleGender}}</p>
     <p><span class="category-name">Phone: </span> {{user.phone}}</p>
     <p *ngIf="user.department"><span class="category-name">Department: </span>{{user.department}}</p>
     <p *ngIf="user.company"><span class="category-name">Company: </span>{{user.company}}</p>

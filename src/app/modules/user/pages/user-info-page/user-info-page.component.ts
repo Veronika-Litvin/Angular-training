@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Routes } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+import { RouterLinkInterface } from 'src/app/modules/shared/models/router-link.interface';
 import { IUser } from '../../models/user.interface';
 import { UserApiService } from '../../services/user-api.service';
 import { UserService } from '../../services/user.service';
@@ -9,33 +11,46 @@ import { UserService } from '../../services/user.service';
   templateUrl: './user-info-page.component.html',
   styleUrls: ['./user-info-page.component.scss']
 })
-export class UserInfoPageComponent implements OnInit {
+export class UserInfoPageComponent implements OnInit, OnDestroy {
 
   // navLinks = ['company-info', 'personal-info', 'contacts'];
   // activeLink = this.navLinks[0];
 
   id!: string;
 
-  currentUser: IUser | undefined;
+  currentUser: IUser | null = null;
 
-  navLinks: { path: string, label: string }[] = [];
+  navLinks: RouterLinkInterface[] = [];
+
+  activeLink!: RouterLinkInterface;
+
+  subscriptions: Subject<void> = new Subject();
 
   constructor(private route: ActivatedRoute, private userApiService: UserApiService,
-    private userService: UserService) { }
+    private userService: UserService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.navLinks = (
       this.route.routeConfig && this.route.routeConfig.children ?
         this.buildNavItems(this.route.routeConfig.children) :
         []
     );
 
-    this.userService.getCurrentUser(this.route).subscribe(
+    this.activeLink = this.navLinks[0];
+
+    this.userService.updateCurrentUser(this.route)
+    .pipe(
+      takeUntil(this.subscriptions)
+    ).subscribe(
       (value) => this.currentUser = value
     )
   }
 
-  buildNavItems(routes: Routes) {
+  ngOnDestroy(): void {
+    this.subscriptions.next();
+}
+
+  buildNavItems(routes: Routes): RouterLinkInterface[] {
     return (routes)
       .filter(route => route.path)
       .map(({ path = '', data }) => ({

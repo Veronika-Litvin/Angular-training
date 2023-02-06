@@ -5,7 +5,9 @@ import type { PipeTransform } from '@angular/core';
   name: 'addExclamation',
 })
 export class AddExclamationPipe implements PipeTransform {
+
   transform(value: string): string {
     return `!${value}!`;
   }
+  
 }

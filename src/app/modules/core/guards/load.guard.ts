@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Route, Router, UrlSegment } from '@angular/router';
+import { CanLoad, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
 
@@ -9,8 +9,8 @@ import { AuthService } from '../../shared/services/auth.service';
 export class LoadGuard implements CanLoad {
   constructor(private router: Router, private authService: AuthService) {}
 
-  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | boolean {
-      if (this.authService.isLogged) {
+  canLoad(): Observable<boolean> | boolean {
+      if (localStorage.getItem('currentUser')) {
         return true;
       } 
 

@@ -45,6 +45,7 @@ export class SignUpPageComponent implements OnInit {
     if (this.signUpPageForm.valid) {
       const formValues = this.signUpPageForm.value;
       this.authService.registerUser(formValues).subscribe(isSuccess => {
+        console.log(isSuccess)
         if (isSuccess) {
           this.router.navigate(['home']);
         }

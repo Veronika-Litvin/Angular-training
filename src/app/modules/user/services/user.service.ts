@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, mergeMap, Observable } from 'rxjs';
+import { BehaviorSubject, map, mergeMap, Observable } from 'rxjs';
 import { FavoriteTypes } from '../../shared/models/favorite.enum';
 import { FavoriteDataService } from '../../shared/services/favorite-data.service';
 import { IUser } from '../models/user.interface';
@@ -10,6 +10,8 @@ import { UserApiService } from './user-api.service';
   providedIn: 'root'
 })
 export class UserService {
+
+  currentUser: BehaviorSubject<IUser | null> = new BehaviorSubject<IUser | null>(null);
 
   constructor(private favoriteService: FavoriteDataService,
     private userApiService: UserApiService) { }
@@ -25,15 +27,22 @@ export class UserService {
       )
   }
 
-  getCurrentUser(route: ActivatedRoute): Observable<IUser | undefined> {
+  updateCurrentUser(route: ActivatedRoute): Observable<IUser | null> {
     return route.params
       .pipe(
         mergeMap((params) => {
           const id = params['id'];
-          console.log('id', id)
-          return this.userApiService.getUserById(id)
+          return this.userApiService.getUserById(id);
+        }),
+        map(user => {
+          this.currentUser.next(user || null);
+          return user || null;
         })
       );
+  }
+
+  getSavedCurrentUser(): Observable<IUser | null> {
+    return this.currentUser.asObservable();
   }
 
 }

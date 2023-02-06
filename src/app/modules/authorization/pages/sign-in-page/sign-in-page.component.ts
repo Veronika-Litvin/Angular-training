@@ -28,6 +28,7 @@ export class SignInPageComponent {
       const formValue = this.authForm.value;
       this.authService.loginUser(formValue)
         .subscribe((isSuccess) => {
+          console.log(isSuccess)
           isSuccess ? this.router.navigate(['home']) : alert('Incorrect user name or password');
         });
     }

@@ -114,6 +114,7 @@ export class UsersPageComponent implements OnInit, OnDestroy {
     this.page = e.pageIndex + 1;
     this.pageSize = e.pageSize;
     this.getUsers(this.page, this.pageSize, this.searchValue);
+    localStorage.setItem('page', JSON.stringify(this.page))
   }
 
   getUsers(page: number, results: number, tag?: string): void {

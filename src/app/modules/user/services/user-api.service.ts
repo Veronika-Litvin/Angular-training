@@ -1,3 +1,4 @@
+import { JsonPipe } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
@@ -76,16 +77,16 @@ export class UserApiService {
     )
   }
 
-  
+
   getUserById(id: string): Observable<IUser | undefined> {
-        return this.apiService.get<ServerResponse>('', { params: { results: 10, seed: 'abc', id: id } })
-        .pipe(
-          map((response) => {
-            return convertToUserList(response.body)
-                  .find((user: IUser) => user.id === id);
-          })
-        );
+    const currentPage = JSON.parse(localStorage.getItem('page')!)
+    return this.apiService.get<ServerResponse>('', { params: { page: currentPage, results: 10, seed: 'abc', id: id } })
+      .pipe(
+        map((response) => {
+          return convertToUserList(response.body)
+            .find((user: IUser) => user.id === id);
+        })
+      );
   }
-  
 
 }

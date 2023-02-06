@@ -11,15 +11,13 @@ import { RegisterUser } from '../../authorization/models/new-user.interface';
 export class AuthService {
 
   currentUser: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  isLogged = false;
 
   constructor(private router: Router) { }
 
   registerUser(user: RegisterUser): Observable<boolean> {
     existingUsers.push(user);
-    this.isLogged = true;
     localStorage.setItem('currentUser', user.name);
-
+    this.currentUser.next(user.name);
     return of(true).pipe(delay(500));
   }
 
@@ -28,19 +26,19 @@ export class AuthService {
       return userExist.name === user.name && userExist.password === user.password;
     });
 
+    let status = false;
+
     if (isUserExist !== -1) {
       this.currentUser.next(user.name);
-      this.isLogged = true;
-      return of(true).pipe(delay(500));
+      localStorage.setItem('currentUser', user.name);
+      status = true;
     }
-
-      return of(false).pipe(delay(500));
+      return of(status).pipe(delay(500));
   }
 
   logOut(): void {
     this.currentUser.next('');
     localStorage.removeItem('currentUser');
-    this.isLogged = false;
     this.router.navigate(['signin']);
   }
 }

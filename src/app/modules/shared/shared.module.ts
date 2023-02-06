@@ -17,6 +17,7 @@ import { SearchComponent } from './components/search/search.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateFullNamePipe } from './pipes/create-full-name.pipe';
 import { AddExclamationPipe } from './pipes/exclamation.pipe';
+import { HandleGengerPipe } from './pipes/handle-gender.pipe';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AddExclamationPipe } from './pipes/exclamation.pipe';
     ConfirmationModalComponent,
     SearchComponent,
     CreateFullNamePipe,
-    AddExclamationPipe
+    AddExclamationPipe,
+    HandleGengerPipe
   ],
   imports: [
     CommonModule,
@@ -51,7 +53,8 @@ import { AddExclamationPipe } from './pipes/exclamation.pipe';
     SearchComponent,
     HttpClientModule,   
     CreateFullNamePipe,
-    AddExclamationPipe
+    AddExclamationPipe,
+    HandleGengerPipe
   ]
 })
 export class SharedModule { }

@@ -1,6 +1,6 @@
 <div class="info-wrapper" *ngIf="currentUser">
     <p><span class="category-item">First Name: </span>{{currentUser!.firstName}}</p>
     <p><span class="category-item">Last Name: </span>{{currentUser!.lastName}}</p>
-    <p><span class="category-item">Gender: </span>{{currentUser!.gender ? 'female' : 'male'}}</p>
+    <p><span class="category-item">Gender: </span>{{currentUser!.gender | handleGender}}</p>
     <p><span class="category-item">Address: </span>{{currentUser!.addresses[0].city}}, {{currentUser!.addresses[0].addressLine}}</p>   
 </div>

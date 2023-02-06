@@ -15,11 +15,6 @@ const routes: Routes = [
     canActivate: [AuthGuard], 
     children: [
       { 
-        path: '', 
-        redirectTo: 'signin', 
-        pathMatch: 'full' 
-      },
-      { 
         path: 'home', 
         component: HomePageComponent 
       },
@@ -32,6 +27,11 @@ const routes: Routes = [
         path: 'user',
         canLoad: [LoadGuard],
         loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
+      },
+      { 
+        path: '', 
+        redirectTo: 'signin', 
+        pathMatch: 'full' 
       },
     ],
   },

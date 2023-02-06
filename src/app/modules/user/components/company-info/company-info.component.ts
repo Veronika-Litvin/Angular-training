@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { IUser } from '../../models/user.interface';
 import { UserService } from '../../services/user.service';
 
@@ -8,16 +9,22 @@ import { UserService } from '../../services/user.service';
   templateUrl: './company-info.component.html',
   styleUrls: ['./company-info.component.scss']
 })
-export class CompanyInfoComponent implements OnInit {
+export class CompanyInfoComponent implements OnInit, OnDestroy {
 
-  currentUser: IUser | undefined;
+  currentUser: IUser | null = null;
+
+  subscription: Subscription = new Subscription();
 
   constructor(private route: ActivatedRoute, private userService: UserService) { }
 
-  ngOnInit() {
-    this.userService.getCurrentUser(this.route.parent!).subscribe(
+  ngOnInit(): void {
+    this.subscription.add(this.userService.getSavedCurrentUser().subscribe(
       (value) => this.currentUser = value
-    )
+    ))
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }
