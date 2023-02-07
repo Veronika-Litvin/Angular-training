@@ -5,10 +5,11 @@ import { delay, map, Observable } from 'rxjs';
 import { ServerResponse } from '../../core/models/http-response.interface';
 import { ApiService } from '../../core/services/api.service';
 import { Address } from '../../shared/models/addresses.interface';
+import { UserColumn } from '../../tables/models/user-column.interface';
 import { IFormUser } from '../models/form-user-data.interface';
 import { IUser } from '../models/user.interface';
 import { randomDelay } from '../utils/random-time';
-import { convertToUserList } from '../utils/user-conversion';
+import { convertToTableList, convertToUserList } from '../utils/user-conversion';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,20 @@ export class UserApiService {
       .pipe(
         map((response) => {
           return convertToUserList(response.body);
+        })
+      );
+  }
+
+  getUsersTable(): Observable<UserColumn[]> {
+    const options = {
+      params: new HttpParams().set('results', 1000)
+    }
+
+    return this.apiService.get<ServerResponse>('', options)
+      .pipe(
+        map((response) => {
+          console.log(response)
+          return convertToTableList(response.body);
         })
       );
   }

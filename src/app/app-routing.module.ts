@@ -7,6 +7,7 @@ import { AuthedUserWrapperComponent } from './modules/core/components/authed-use
 import { NotAuthedUserWrapperComponent } from './modules/core/components/not-authed-user-wrapper/not-authed-user-wrapper.component';
 import { HomePageComponent } from './modules/home/pages/home-page/home-page.component';
 import { AuthGuard } from './modules/core/guards/auth.guard';
+import { TablesPageComponent } from './modules/tables/pages/tables-page/tables-page.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
       { 
         path: 'home', 
         component: HomePageComponent 
+      },
+      { 
+        path: 'tables', 
+        component: TablesPageComponent 
       },
       {
         path: 'cars', 

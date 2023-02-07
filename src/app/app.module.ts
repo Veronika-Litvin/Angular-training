@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { CoreModule } from './modules/core/core.module';
 import { AuthorizationModule } from './modules/authorization/authorization.module';
 import { MatTabsModule } from '@angular/material/tabs'
+import { TablesModule } from './modules/tables/tables.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { MatTabsModule } from '@angular/material/tabs'
     BrowserAnimationsModule,
     CoreModule,
     AuthorizationModule,
-    MatTabsModule
+    MatTabsModule,
+    TablesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

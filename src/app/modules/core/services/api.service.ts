@@ -13,16 +13,25 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  get<T>(url: string, options: HttpOtions): Observable<any> {
+  get<T>(url: string, options?: HttpOtions): Observable<any> {
     const fullUrl = getFullUrl(url);
 
-    const httpOptions = this.createOptions(options);
-
-    return this.http
+    if(options) {
+      const httpOptions = this.createOptions(options);
+      return this.http
       .get<T>(fullUrl, httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError));
+    }
+
+    return this.http
+    .get<T>(fullUrl)
+    .pipe(
+      retry(1),
+      catchError(this.handleError));
+
+
   }
 
   post<T>(data: T): Observable<any> {
