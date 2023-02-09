@@ -1,5 +1,8 @@
 export interface Params {
     page: number
     results: number,
-    tag?: string
+    tag?: string,
+    id?: string,
+    sort?: string,
+    order?: string
   }

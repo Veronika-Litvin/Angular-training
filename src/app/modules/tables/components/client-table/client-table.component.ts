@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { IUser } from 'src/app/modules/user/models/user.interface';
 import { UserApiService } from 'src/app/modules/user/services/user-api.service';
-import { UserColumn } from '../../models/user-column.interface';
 
 @Component({
   selector: 'app-client-table',
@@ -12,8 +12,8 @@ import { UserColumn } from '../../models/user-column.interface';
 })
 export class ClientTableComponent implements OnInit {
 
-  displayedColumns: string[] = ['fullName', 'email', 'age', 'addresses', 'department'];
-  dataSource = new MatTableDataSource<UserColumn>;
+  displayedColumns: string[] = ['lastName', 'userEmail', 'age', 'addresses', 'department'];
+  dataSource = new MatTableDataSource<IUser>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -21,8 +21,8 @@ export class ClientTableComponent implements OnInit {
   constructor(private userApiService: UserApiService) {}
 
   ngOnInit(): void {
-    this.userApiService.getUsersTable()
-    .subscribe(users => {
+    this.userApiService.getUsers({})
+    .subscribe((users: IUser[]) => {
       this.dataSource = new MatTableDataSource(users);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

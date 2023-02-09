@@ -1,5 +1,4 @@
 import { ServerResponse } from "../../core/models/http-response.interface";
-import { UserColumn } from "../../tables/models/user-column.interface";
 import { IUser } from "../models/user.interface";
 
 export function convertToUserList(data: ServerResponse): IUser[] {
@@ -23,25 +22,6 @@ export function convertToUserList(data: ServerResponse): IUser[] {
         }
       ]
     } as IUser;
-  })
-
-}
-
-export function convertToTableList(data: ServerResponse): UserColumn[] {
-  return data.results.map((serverUser) => {
-    return {
-      fullName: `${serverUser.name.first}, ${serverUser.name.last}`,
-      email: serverUser.email,
-      age: serverUser.dob.age,
-      department: 'Frontend',
-      addresses: [
-        {
-          addressLine: serverUser.location.country,
-          city: serverUser.location.city,
-          zip: serverUser.location.postcode
-        }
-      ]
-    } as UserColumn;
   })
 
 }

@@ -5,12 +5,14 @@ import { ClientTableComponent } from './components/client-table/client-table.com
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { ServerTableComponent } from './components/server-table/server-table.component';
 
 
 @NgModule({
   declarations: [
     TablesPageComponent,
     ClientTableComponent,
+    ServerTableComponent,
   ],
   imports: [
     CommonModule,
